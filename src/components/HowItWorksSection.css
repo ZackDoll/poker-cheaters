@@ -1,0 +1,56 @@
+.how-section {
+  background: var(--tell-section);
+  border-top: 1px solid var(--tell-line);
+  border-bottom: 1px solid var(--tell-line);
+}
+
+.how-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 96px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.how-title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  max-width: 680px;
+}
+
+.how-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.how-step {
+  flex: 1 1 280px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.how-step-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  color: var(--tell-gold);
+}
+
+.how-step-title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.how-step-text {
+  margin: 0;
+  color: var(--tell-muted);
+}

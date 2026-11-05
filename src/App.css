@@ -6,3 +6,8 @@
   flex: 1;
   padding: 1rem 2rem;
 }
+
+.app-content-full {
+  flex: 1;
+  min-width: 0;
+}

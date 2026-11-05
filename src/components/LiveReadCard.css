@@ -1,0 +1,76 @@
+.live-read-card {
+  flex: 1 1 440px;
+  min-width: 0;
+  background: var(--tell-surface);
+  border: 1px solid var(--tell-border);
+  border-radius: 24px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.live-read-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--tell-dim);
+}
+
+.live-read-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-read-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tell-coral);
+}
+
+.live-read-placeholder {
+  height: 180px;
+  border-radius: 14px;
+  background: var(--tell-bg);
+  border: 2px dashed var(--tell-outline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  color: var(--tell-muted);
+}
+
+.live-read-signals {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.live-read-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--tell-bg);
+  border-radius: 14px;
+  padding: 14px 18px;
+  border: 1px solid var(--tell-border);
+}
+
+.live-read-result-label {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.live-read-result-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  color: var(--tell-coral);
+  font-weight: 500;
+}
