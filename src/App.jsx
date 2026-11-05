@@ -1,17 +1,17 @@
 import { Routes, Route } from 'react-router'
-import Navbar from './components/Navbar.jsx'
-import HomePage from './pages/HomePage.jsx'
-import AboutPage from './pages/AboutPage.jsx'
+import Sidebar from './components/Sidebar.jsx'
+import LandingPage from './pages/LandingPage.jsx'
+import LoginPage from './pages/LoginPage.jsx'
 import './App.css'
 
 function App() {
   return (
     <div className="app">
-      <Navbar />
+      <Sidebar />
       <main className="app-content">
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </main>
     </div>
