@@ -1,0 +1,14 @@
+.session-detail-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.session-detail-back {
+  align-self: flex-start;
+  color: var(--tell-muted);
+  text-decoration: none;
+}
+
+.session-detail-back:hover {
+  color: var(--tell-gold);
+}

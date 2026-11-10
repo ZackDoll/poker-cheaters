@@ -20,10 +20,14 @@ function Sidebar() {
 
       <nav className="sidebar-links">
         <NavLink to="/live">Live</NavLink>
-        <NavLink to="/home">Home</NavLink>
+        <NavLink to="/sessions">Sessions</NavLink>
+        <NavLink to="/opponents">Opponents</NavLink>
+        <NavLink to="/insights">Insights</NavLink>
+        <NavLink to="/settings">Settings</NavLink>
       </nav>
 
       <nav className="sidebar-links sidebar-links-bottom">
+        <NavLink to="/home">Home</NavLink>
         <NavLink to="/" end>Landing page</NavLink>
         <NavLink to="/login">Login</NavLink>
       </nav>
