@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "poker-cheaters-backend"
+version = "0.1.0"
+description = "API and model pipeline for the poker bluff detector"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "alembic>=1.13",
+  "fastapi>=0.115",
+  "psycopg[binary]>=3.2",
+  "pydantic>=2.9",
+  "pydantic-settings>=2.5",
+  "python-multipart>=0.0.12",
+  "sqlalchemy>=2.0.30",
+  "uvicorn[standard]>=0.30",
+]
+
+[project.optional-dependencies]
+dev = ["httpx2>=2.0.0", "pytest>=8.3", "ruff>=0.6"]
+# Heavy model dependencies. Install only the ones you work on, and use Python
+# 3.12 if a package has no wheel for your version yet.
+facial = ["mediapipe", "numpy", "opencv-python-headless"]
+speech = ["faster-whisper", "librosa", "numpy"]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.File", "fastapi.Form"]
