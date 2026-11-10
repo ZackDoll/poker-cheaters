@@ -1,0 +1,49 @@
+.join-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px 96px;
+}
+
+.join-banner {
+  background: var(--tell-gold);
+  color: var(--tell-bg);
+  border-radius: 28px;
+  padding: 64px 48px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.join-copy {
+  flex: 1 1 400px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.join-title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 46px;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.join-text {
+  margin: 0;
+  font-size: 18px;
+  color: #2b2a1f;
+}
+
+.join-button {
+  background: var(--tell-bg);
+  color: var(--tell-gold);
+  font-weight: 600;
+  font-size: 17px;
+  padding: 16px 32px;
+  border-radius: 999px;
+}

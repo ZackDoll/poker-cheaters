@@ -1,0 +1,47 @@
+.page-placeholder {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.page-placeholder-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 680px;
+}
+
+.page-placeholder-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--tell-gold);
+  letter-spacing: 0.08em;
+}
+
+.page-placeholder-title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.page-placeholder-text {
+  margin: 0;
+  font-size: 18px;
+  color: var(--tell-muted);
+}
+
+.page-placeholder-body {
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  color: var(--tell-muted);
+  background: var(--tell-surface);
+  border: 2px dashed var(--tell-outline);
+  border-radius: 24px;
+}

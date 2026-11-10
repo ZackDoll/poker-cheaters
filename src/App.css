@@ -1,8 +1,19 @@
 .app {
   display: flex;
+  min-height: 100vh;
+  background: var(--tell-bg);
+  color: var(--tell-text);
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.55;
 }
 
 .app-content {
   flex: 1;
-  padding: 1rem 2rem;
+  min-width: 0;
+  padding: 40px 32px;
+}
+
+.app-content-full {
+  flex: 1;
+  min-width: 0;
 }

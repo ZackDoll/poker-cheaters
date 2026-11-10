@@ -1,0 +1,31 @@
+.home-page {
+  max-width: 700px;
+  margin: 4rem auto;
+  text-align: center;
+}
+
+.home-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 3rem;
+  margin: 0 0 0.5rem;
+}
+
+.home-subtitle {
+  color: var(--tell-muted);
+  margin-bottom: 2rem;
+}
+
+.home-cta {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  background: var(--tell-gold);
+  color: var(--tell-bg);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-cta:hover {
+  background: var(--tell-gold-hover);
+}

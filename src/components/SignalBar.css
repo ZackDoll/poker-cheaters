@@ -1,0 +1,53 @@
+.signal-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.signal-bar-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.signal-bar-label {
+  color: var(--tell-muted);
+}
+
+.signal-bar-value {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.signal-bar-high {
+  color: var(--tell-coral);
+}
+
+.signal-bar-mid {
+  color: var(--tell-gold);
+}
+
+.signal-bar-low {
+  color: var(--tell-green);
+}
+
+.signal-bar-fill-low {
+  background: var(--tell-green);
+}
+
+.signal-bar-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--tell-line);
+}
+
+.signal-bar-fill {
+  height: 6px;
+  border-radius: 3px;
+}
+
+.signal-bar-fill-high {
+  background: var(--tell-coral);
+}
+
+.signal-bar-fill-mid {
+  background: var(--tell-gold);
+}

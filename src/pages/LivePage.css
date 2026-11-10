@@ -1,0 +1,115 @@
+.live-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.live-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.live-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--tell-gold);
+  letter-spacing: 0.08em;
+}
+
+.live-title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+.live-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.live-main {
+  flex: 1 1 460px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.live-side {
+  flex: 1 1 380px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.live-hand {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px;
+  background: var(--tell-surface);
+  border: 1px solid var(--tell-border);
+  border-radius: 24px;
+}
+
+.live-hand-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--tell-dim);
+}
+
+.live-board {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.live-hand-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.live-hand-stat {
+  flex: 1 1 140px;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  background: var(--tell-bg);
+  border: 1px solid var(--tell-border);
+  border-radius: 12px;
+}
+
+.live-hand-label {
+  font-size: 13px;
+  color: var(--tell-muted);
+}
+
+.live-hand-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+}
+
+.live-opponents {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.live-opponents-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--tell-gold);
+  letter-spacing: 0.08em;
+}

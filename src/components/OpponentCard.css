@@ -1,0 +1,57 @@
+.opponent-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--tell-bg);
+  border: 1px solid var(--tell-border);
+  border-radius: 14px;
+  color: var(--tell-text);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.opponent-card:hover {
+  border-color: var(--tell-outline);
+}
+
+.opponent-card-selected {
+  border-color: var(--tell-gold);
+}
+
+.opponent-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.opponent-name {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.opponent-verdict {
+  font-size: 14px;
+  color: var(--tell-muted);
+}
+
+.opponent-likelihood {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.opponent-tone-low {
+  color: var(--tell-green);
+}
+
+.opponent-tone-mid {
+  color: var(--tell-gold);
+}
+
+.opponent-tone-high {
+  color: var(--tell-coral);
+}
