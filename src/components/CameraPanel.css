@@ -34,7 +34,7 @@
   background: var(--tell-coral);
 }
 
-.camera-view {
+.camera-panel-placeholder {
   min-height: 260px;
   display: flex;
   align-items: center;
@@ -74,3 +74,11 @@
   border-color: var(--tell-coral);
   color: var(--tell-coral);
 }
+
+.camera-panel-note {
+  margin: 0;
+  color: var(--tell-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+

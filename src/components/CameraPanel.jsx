@@ -1,3 +1,4 @@
+import CameraView from './CameraView.jsx'
 import './CameraPanel.css'
 
 function CameraPanel({ active, onToggle }) {
@@ -6,15 +7,18 @@ function CameraPanel({ active, onToggle }) {
       <div className="camera-header">
         <span className="camera-status">
           <span className={`camera-dot ${active ? 'camera-dot-live' : ''}`}></span>
-          {active ? 'SESSION LIVE' : 'SESSION OFF'}
+          {active ? 'CAMERA TEST' : 'SESSION OFF'}
         </span>
-        <span>SAMPLE DATA</span>
+        <span>EXPRESSION TEST</span>
       </div>
-      <div className="camera-view">
-        {active
-          ? 'Placeholder for live camera feed with seat tracking'
-          : 'Camera is off. Start a session to begin reading the table.'}
-      </div>
+      {active ? <CameraView /> : (
+        <div className="camera-panel-placeholder">
+          Camera is off. Start a session to test your front camera.
+        </div>
+      )}
+      <p className="camera-panel-note">
+        Video is processed in your browser without recording or uploading. Opponent reads are sample data.
+      </p>
       <button
         className={`camera-button ${active ? 'camera-button-stop' : ''}`}
         type="button"
@@ -27,3 +31,4 @@ function CameraPanel({ active, onToggle }) {
 }
 
 export default CameraPanel
+

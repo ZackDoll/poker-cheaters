@@ -1,0 +1,14 @@
+.face-analysis { padding-top: 16px; color: var(--tell-text); }
+.face-analysis-title { margin: 0 0 8px; font-size: 1.1rem; }
+.face-analysis-note, .face-analysis-status { color: var(--tell-muted); font-size: 0.875rem; line-height: 1.5; }
+.face-analysis-button { padding: 12px 16px; border: 0; border-radius: 24px; background: var(--tell-gold); color: var(--tell-bg); font: inherit; cursor: pointer; }
+.face-analysis-button:disabled { opacity: 0.5; cursor: not-allowed; }
+.face-analysis-button:focus-visible { outline: 2px solid var(--tell-text); outline-offset: 3px; }
+.face-analysis-progress { width: 100%; accent-color: var(--tell-gold); }
+.face-analysis-error { color: var(--tell-coral); }
+.face-analysis-score strong { font-size: 1.5rem; color: var(--tell-gold); }
+.face-analysis-list { list-style: none; padding: 0; display: grid; gap: 10px; }
+.face-analysis-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(40px, 1fr) 4rem; gap: 8px; align-items: center; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+.face-analysis-meter { width: 100%; accent-color: var(--tell-gold); }
+
+.face-analysis-summary { color: var(--tell-green); line-height: 1.5; }

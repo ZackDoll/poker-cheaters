@@ -6,7 +6,7 @@ import ReadPanel from '../components/ReadPanel.jsx'
 import { SAMPLE_HAND, SAMPLE_OPPONENTS } from '../helpers/liveSampleData.js'
 import './LivePage.css'
 
-// UI only: uses sample data, no camera or API yet.
+// Camera preview is live; hand and opponent reads remain sample data.
 function LivePage() {
   const [sessionActive, setSessionActive] = useState(false)
   const [selectedId, setSelectedId] = useState(SAMPLE_OPPONENTS[1].id)
@@ -69,3 +69,4 @@ function LivePage() {
 }
 
 export default LivePage
+
