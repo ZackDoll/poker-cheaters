@@ -18,9 +18,14 @@ Only `App.jsx`, `App.css`, `main.jsx`, and `index.css` live at the `src/` root.
 - Each component imports its own CSS file. Prefix class names with the component name (e.g. `sidebar-links`) to avoid collisions.
 - `index.css` is for global resets and the shared design tokens (`--tell-*` CSS variables: colors). Use the variables instead of hard-coded hex values.
 
-## Login
+## Login and backend
 
-- The login page is visual only for now (the form is non-functioning). Do not add auth logic unless asked.
+- The username/password form on the login page is visual only (non-functioning). Do not add password auth unless asked.
+- Google OAuth is the working login. Backend is Vercel serverless functions in `api/` (`api/auth/google.js`, `api/auth/google/callback.js`, `api/auth/me.js`, `api/auth/logout.js`), with shared code in `api/_lib/`. Database is Postgres (Neon) via `@neondatabase/serverless`; schema is in `db/schema.sql`.
+- Sessions are httpOnly cookies; only a sha256 hash of the token is stored in `auth_sessions`.
+- Secrets (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `DATABASE_URL`, `APP_URL`) live only in `.env.local` and Vercel env vars. Never commit them or paste them into chat. `.env.example` lists the names.
+- Frontend calls to the API still go through the axios instance (`helpers/api.js`, `helpers/auth.js`). The Google button is a plain link to `/api/auth/google`, because it is a browser redirect, not an API query.
+- Run locally with `vercel dev` (port 3000) so `/api` works; plain `npm run dev` does not serve `/api`.
 
 ## Uploaded artifacts (zips, HTML, mockups)
 
