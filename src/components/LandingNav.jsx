@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import './LandingNav.css'
 
 function LandingNav() {
@@ -21,7 +22,7 @@ function LandingNav() {
         <a href="#modes">Live &amp; post-game</a>
         <a href="#how">How it works</a>
         <a href="#fair">Fair play</a>
-        <a className="landing-nav-cta" href="#join">Try for free</a>
+        <Link className="landing-nav-cta" to="/login">Try for free</Link>
       </nav>
     </header>
   )

@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import LiveReadCard from './LiveReadCard.jsx'
 import './LandingHero.css'
 
@@ -14,7 +15,7 @@ function LandingHero() {
           read on who is representing, and who actually has it.
         </p>
         <div className="landing-hero-actions">
-          <a className="landing-hero-primary" href="#join">Try for free</a>
+          <Link className="landing-hero-primary" to="/login">Try for free</Link>
           <a className="landing-hero-secondary" href="#modes">See it in action</a>
         </div>
       </div>
