@@ -1,22 +1,5 @@
-/*
-  Design tokens for the landing page. Landing components below use these
-  variables, so they must be rendered inside .landing-page.
-*/
+/* Colors come from the design tokens in index.css. */
 .landing-page {
-  --tell-bg: #0b1411;
-  --tell-section: #0f1b17;
-  --tell-surface: #12201b;
-  --tell-line: #1d2f28;
-  --tell-border: #243830;
-  --tell-outline: #3a5247;
-  --tell-text: #edeae0;
-  --tell-muted: #b7c2bb;
-  --tell-dim: #a9b5ae;
-  --tell-gold: #f4c95d;
-  --tell-gold-hover: #ffd97a;
-  --tell-coral: #ff7a59;
-  --tell-green: #6fd3a5;
-
   background: var(--tell-bg);
   color: var(--tell-text);
   font-family: 'Inter', system-ui, sans-serif;

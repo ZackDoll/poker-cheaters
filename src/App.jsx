@@ -5,10 +5,12 @@ import HomePage from './pages/HomePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import './App.css'
 
+// Full-width pages that bring their own layout (no sidebar).
+const STANDALONE_PATHS = ['/', '/login']
+
 function App() {
   const { pathname } = useLocation()
-  // The landing page is a full-width marketing page with its own nav.
-  const showSidebar = pathname !== '/'
+  const showSidebar = !STANDALONE_PATHS.includes(pathname)
 
   return (
     <div className="app">
