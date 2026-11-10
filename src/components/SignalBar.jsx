@@ -1,6 +1,6 @@
 import './SignalBar.css'
 
-// tone: 'high' (coral) or 'mid' (gold)
+// tone: 'high' (coral), 'mid' (gold), or 'low' (green)
 function SignalBar({ label, value, percent, tone }) {
   return (
     <div className="signal-bar">

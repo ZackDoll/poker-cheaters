@@ -25,6 +25,14 @@
   color: var(--tell-gold);
 }
 
+.signal-bar-low {
+  color: var(--tell-green);
+}
+
+.signal-bar-fill-low {
+  background: var(--tell-green);
+}
+
 .signal-bar-track {
   height: 6px;
   border-radius: 3px;

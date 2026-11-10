@@ -1,0 +1,18 @@
+.sessions-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sessions-link {
+  align-self: flex-start;
+  padding: 12px 22px;
+  border: 1px solid var(--tell-outline);
+  border-radius: 999px;
+  color: var(--tell-text);
+  text-decoration: none;
+}
+
+.sessions-link:hover {
+  border-color: var(--tell-gold);
+  color: var(--tell-gold);
+}

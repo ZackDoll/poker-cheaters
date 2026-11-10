@@ -1,0 +1,76 @@
+.camera-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: var(--tell-surface);
+  border: 1px solid var(--tell-border);
+  border-radius: 24px;
+}
+
+.camera-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--tell-dim);
+}
+
+.camera-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.camera-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tell-outline);
+}
+
+.camera-dot-live {
+  background: var(--tell-coral);
+}
+
+.camera-view {
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  color: var(--tell-muted);
+  background: var(--tell-bg);
+  border: 2px dashed var(--tell-outline);
+  border-radius: 14px;
+}
+
+.camera-button {
+  min-height: 48px;
+  border: none;
+  border-radius: 999px;
+  background: var(--tell-gold);
+  color: var(--tell-bg);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.camera-button:hover {
+  background: var(--tell-gold-hover);
+}
+
+.camera-button-stop {
+  background: transparent;
+  border: 1px solid var(--tell-outline);
+  color: var(--tell-text);
+}
+
+.camera-button-stop:hover {
+  background: transparent;
+  border-color: var(--tell-coral);
+  color: var(--tell-coral);
+}
