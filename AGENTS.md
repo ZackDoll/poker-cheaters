@@ -20,12 +20,19 @@ Only `App.jsx`, `App.css`, `main.jsx`, and `index.css` live at the `src/` root.
 
 ## Login and backend
 
+The project has two backends:
+
+- **Login:** Vercel serverless functions in `api/` (Node), described in this section.
+- **Predictions:** FastAPI in `backend/` (Python), described under [Backend](#backend) below.
+
+Still to agree as a team: how both run together locally, where FastAPI is hosted in production, and whether both use the same database.
+
 - The username/password form on the login page is visual only (non-functioning). Do not add password auth unless asked.
-- Google OAuth is the working login. Backend is Vercel serverless functions in `api/` (`api/auth/google.js`, `api/auth/google/callback.js`, `api/auth/me.js`, `api/auth/logout.js`), with shared code in `api/_lib/`. Database is Postgres (Neon) via `@neondatabase/serverless`; schema is in `db/schema.sql`.
+- Google OAuth is the working login. The login backend is Vercel serverless functions in `api/` (`api/auth/google.js`, `api/auth/google/callback.js`, `api/auth/me.js`, `api/auth/logout.js`), with shared code in `api/_lib/`. Database is Postgres (Neon) via `@neondatabase/serverless`; schema is in `db/schema.sql`.
 - Sessions are httpOnly cookies; only a sha256 hash of the token is stored in `auth_sessions`.
 - Secrets (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `DATABASE_URL`, `APP_URL`) live only in `.env.local` and Vercel env vars. Never commit them or paste them into chat. `.env.example` lists the names.
 - Frontend calls to the API still go through the axios instance (`helpers/api.js`, `helpers/auth.js`). The Google button is a plain link to `/api/auth/google`, because it is a browser redirect, not an API query.
-- Run locally with `vercel dev` (port 3000) so `/api` works; plain `npm run dev` does not serve `/api`.
+- Run locally with `vercel dev` (port 3000) so the `api/` functions work. Plain `npm run dev` forwards every `/api` request to FastAPI on port 8000 (see `vite.config.js`), so login doesn't work there.
 
 ## Uploaded artifacts (zips, HTML, mockups)
 
@@ -56,7 +63,7 @@ Never copy an uploaded artifact in word for word. Always refactor it to follow t
 
 # Backend
 
-FastAPI (Python 3.12 or 3.13) under `backend/`, with Postgres in Docker. Run commands from `backend/` with the virtual environment active.
+The prediction backend: FastAPI (Python 3.12 or 3.13) under `backend/`, with a local Postgres in Docker. This database is separate from the Neon database the login uses. Run commands from `backend/` with the virtual environment active.
 
 ## Folder structure (all under `backend/app/`)
 

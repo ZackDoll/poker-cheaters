@@ -28,8 +28,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Backend
-.env
 .venv/
 __pycache__/
 *.pyc
