@@ -1,24 +1,21 @@
+/* Colors come from the design tokens in index.css. */
 .landing-page {
-  max-width: 700px;
-  margin: 4rem auto;
-  text-align: center;
+  background: var(--tell-bg);
+  color: var(--tell-text);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-.landing-title {
-  font-size: 3rem;
-  margin: 0 0 0.5rem;
-}
-
-.landing-subtitle {
-  color: #555;
-  margin-bottom: 2rem;
-}
-
-.landing-cta {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
-  background: #1a1a1a;
-  color: #fff;
+/* Plain links; zero specificity so component classes always win. */
+:where(.landing-page a) {
+  color: var(--tell-text);
   text-decoration: none;
+}
+
+:where(.landing-page a):hover {
+  color: var(--tell-gold);
 }

@@ -1,13 +1,25 @@
-import { Link } from 'react-router'
+import LandingNav from '../components/LandingNav.jsx'
+import LandingHero from '../components/LandingHero.jsx'
+import SignalsSection from '../components/SignalsSection.jsx'
+import ModesSection from '../components/ModesSection.jsx'
+import HowItWorksSection from '../components/HowItWorksSection.jsx'
+import FairPlaySection from '../components/FairPlaySection.jsx'
+import JoinBanner from '../components/JoinBanner.jsx'
+import LandingFooter from '../components/LandingFooter.jsx'
 import './LandingPage.css'
 
 function LandingPage() {
   return (
-    <section className="landing-page">
-      <h1 className="landing-title">Poker Cheaters</h1>
-      <p className="landing-subtitle">Placeholder tagline goes here.</p>
-      <Link className="landing-cta" to="/login">Get started</Link>
-    </section>
+    <div className="landing-page">
+      <LandingNav />
+      <LandingHero />
+      <SignalsSection />
+      <ModesSection />
+      <HowItWorksSection />
+      <FairPlaySection />
+      <JoinBanner />
+      <LandingFooter />
+    </div>
   )
 }
 

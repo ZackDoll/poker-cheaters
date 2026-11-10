@@ -1,0 +1,27 @@
+.playing-card {
+  width: 56px;
+  height: 78px;
+  border-radius: 8px;
+  background: var(--tell-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.playing-card-black {
+  color: var(--tell-bg);
+}
+
+.playing-card-red {
+  color: #b3261e;
+}
+
+/* Suit icon takes the card's text color. */
+.playing-card-suit {
+  fill: currentColor;
+}

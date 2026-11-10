@@ -6,7 +6,7 @@ React app (Vite) using standard JSX and plain CSS (no CSS-in-JS, no preprocessor
 
 - `images/` — image and static asset files imported by components/pages.
 - `components/` — reusable components (e.g. `Sidebar.jsx`).
-- `pages/` — one file per routed page (e.g. `LandingPage.jsx`).
+- `pages/` — one file per routed page (e.g. `LandingPage.jsx` at `/`, `HomePage.jsx` at `/home`).
 - `helpers/` — helper scripts: API wrappers, utilities, shared logic (e.g. `api.js`).
 
 Only `App.jsx`, `App.css`, `main.jsx`, and `index.css` live at the `src/` root.
@@ -16,7 +16,22 @@ Only `App.jsx`, `App.css`, `main.jsx`, and `index.css` live at the `src/` root.
 - Every page and component has its own CSS file with the same base name, in the same folder.
   Example: `pages/LandingPage.jsx` ↔ `pages/LandingPage.css`; `components/Sidebar.jsx` ↔ `components/Sidebar.css`.
 - Each component imports its own CSS file. Prefix class names with the component name (e.g. `sidebar-links`) to avoid collisions.
-- `index.css` is for global resets only.
+- `index.css` is for global resets and the shared design tokens (`--tell-*` CSS variables: colors). Use the variables instead of hard-coded hex values.
+
+## Login
+
+- The login page is visual only for now (the form is non-functioning). Do not add auth logic unless asked.
+
+## Uploaded artifacts (zips, HTML, mockups)
+
+Never copy an uploaded artifact in word for word. Always refactor it to follow this file:
+
+- Split markup into React components/pages (`.jsx`), one per logical section or page, in the correct folder.
+- Split styles into a matching `.css` file next to each component/page. Convert inline styles and `<style>` blocks to class names prefixed with the component name; move any global resets to `index.css`.
+- Move images/assets into `images/` and import them.
+- Convert inline scripts and behavior to React state/handlers; put shared logic in `helpers/`.
+- Replace `<a href>` page links with `react-router` links, and any `fetch`/XHR with the axios instance in `helpers/api.js`.
+- Don't leave the original artifact inside `src/`. Ask the user before deleting the uploaded zip or extracted folder.
 
 ## Routing
 

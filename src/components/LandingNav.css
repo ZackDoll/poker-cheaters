@@ -1,0 +1,41 @@
+.landing-nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.landing-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: -0.02em;
+}
+
+.landing-nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+  font-size: 15px;
+}
+
+.landing-nav-cta {
+  background: var(--tell-gold);
+  color: var(--tell-bg);
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 999px;
+}
+
+.landing-nav-cta:hover {
+  background: var(--tell-gold-hover);
+  color: var(--tell-bg);
+}

@@ -1,0 +1,24 @@
+.home-page {
+  max-width: 700px;
+  margin: 4rem auto;
+  text-align: center;
+}
+
+.home-title {
+  font-size: 3rem;
+  margin: 0 0 0.5rem;
+}
+
+.home-subtitle {
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.home-cta {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: #fff;
+  text-decoration: none;
+}
