@@ -20,12 +20,19 @@ Only `App.jsx`, `App.css`, `main.jsx`, and `index.css` live at the `src/` root.
 
 ## Login and backend
 
+The project has two backends:
+
+- **Login:** Vercel serverless functions in `api/` (Node), described in this section.
+- **Predictions:** FastAPI in `backend/` (Python), described under [Backend](#backend) below.
+
+Still to agree as a team: how both run together locally, where FastAPI is hosted in production, and whether both use the same database.
+
 - The username/password form on the login page is visual only (non-functioning). Do not add password auth unless asked.
-- Google OAuth is the working login. Backend is Vercel serverless functions in `api/` (`api/auth/google.js`, `api/auth/google/callback.js`, `api/auth/me.js`, `api/auth/logout.js`), with shared code in `api/_lib/`. Database is Postgres (Neon) via `@neondatabase/serverless`; schema is in `db/schema.sql`.
+- Google OAuth is the working login. The login backend is Vercel serverless functions in `api/` (`api/auth/google.js`, `api/auth/google/callback.js`, `api/auth/me.js`, `api/auth/logout.js`), with shared code in `api/_lib/`. Database is Postgres (Neon) via `@neondatabase/serverless`; schema is in `db/schema.sql`.
 - Sessions are httpOnly cookies; only a sha256 hash of the token is stored in `auth_sessions`.
 - Secrets (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `DATABASE_URL`, `APP_URL`) live only in `.env.local` and Vercel env vars. Never commit them or paste them into chat. `.env.example` lists the names.
 - Frontend calls to the API still go through the axios instance (`helpers/api.js`, `helpers/auth.js`). The Google button is a plain link to `/api/auth/google`, because it is a browser redirect, not an API query.
-- Run locally with `vercel dev` (port 3000) so `/api` works; plain `npm run dev` does not serve `/api`.
+- Run locally with `vercel dev` (port 3000) so the `api/` functions work. Plain `npm run dev` forwards every `/api` request to FastAPI on port 8000 (see `vite.config.js`), so login doesn't work there.
 
 ## Uploaded artifacts (zips, HTML, mockups)
 
@@ -53,3 +60,37 @@ Never copy an uploaded artifact in word for word. Always refactor it to follow t
 - `npm run dev` — start dev server
 - `npm run build` — production build
 - `npm run lint` — lint
+
+# Backend
+
+The prediction backend: FastAPI (Python 3.12 or 3.13) under `backend/`, with a local Postgres in Docker. This database is separate from the Neon database the login uses. Run commands from `backend/` with the virtual environment active.
+
+## Folder structure (all under `backend/app/`)
+
+- `api/routes/` — HTTP routes only. Business logic goes in `services/`.
+- `services/` — runs the prediction flow: uploads, signal models, fusion, saving.
+- `schemas/` — Pydantic request, response and model-output types.
+- `db/` — SQLAlchemy tables and sessions. Schema changes need an Alembic migration.
+- `ml/` — one folder per model. `ml/base.py` is the shared contract, and `ml/registry.py` lists the active models.
+
+## Adding or implementing a model
+
+1. Subclass `SignalModel` in `ml/<name>/model.py`. `predict()` returns `self.output(status, confidence, evidence)`.
+2. Positive `log_odds` means toward a bluff. Each `Evidence.description` is shown to users as a reason.
+3. Import heavy libraries inside `load()`, and list them as an extra in `pyproject.toml`.
+4. A new model must be added to `build_registry()` and given a weight in `fusion_weights` in `config.py`. Bump `version` when behaviour changes.
+
+## Rules
+
+- Never accept the analysed player's cards as prediction input. They're only allowed in the outcome endpoint.
+- Never store raw video or audio. Clips are deleted when the request ends.
+- Keep `calibrated=False` until a decision model has been validated on held-out data.
+
+## Commands
+
+- `docker compose up -d --wait` — start Postgres (from the repo root)
+- `alembic upgrade head` — apply migrations
+- `alembic revision --autogenerate -m "message"` — create a migration, then review it
+- `uvicorn app.main:app --reload` — start the API on port 8000
+- `pytest` — run tests (uses the `poker_test` database)
+- `ruff check .` — lint
