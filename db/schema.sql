@@ -20,4 +20,3 @@ create table if not exists auth_sessions (
 );
 
 create index if not exists auth_sessions_user_id_idx on auth_sessions(user_id);
-
