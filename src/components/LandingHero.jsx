@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import LiveReadCard from './LiveReadCard.jsx'
+import PuppetStage from './PuppetStage.jsx'
 import './LandingHero.css'
 
 function LandingHero() {
@@ -19,7 +19,7 @@ function LandingHero() {
           <a className="landing-hero-secondary" href="#modes">See it in action</a>
         </div>
       </div>
-      <LiveReadCard />
+      <PuppetStage />
     </section>
   )
 }

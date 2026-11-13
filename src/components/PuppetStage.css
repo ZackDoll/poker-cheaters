@@ -1,0 +1,434 @@
+/* A toy theater in the hero: flat paper layers set at different depths.
+   The beat of the show is the puppet-stage-phase-* class on the root. */
+.puppet-stage {
+  --puppet-stage-peek-space: 104px;
+  --puppet-stage-curtain: color-mix(in srgb, var(--tell-coral) 46%, var(--tell-bg));
+  --puppet-stage-curtain-dark: color-mix(in srgb, var(--tell-coral) 27%, var(--tell-bg));
+  --puppet-stage-curtain-light: color-mix(in srgb, var(--tell-coral) 62%, var(--tell-bg));
+  --puppet-stage-felt: color-mix(in srgb, var(--tell-green) 34%, var(--tell-bg));
+  --puppet-stage-card: color-mix(in srgb, var(--tell-green) 38%, var(--tell-bg));
+  --puppet-stage-look-x: 0;
+  --puppet-stage-look-y: 0;
+  --puppet-stage-zoom: 0px;
+  --puppet-stage-give-x: 0px;
+  --puppet-stage-give-y: 0px;
+  --puppet-stage-give-sx: 0.08;
+  --puppet-stage-give-sy: 0.145;
+  flex: 1 1 440px;
+  min-width: 0;
+  position: relative;
+  padding-top: var(--puppet-stage-peek-space);
+  perspective: 1400px;
+}
+
+/* ---------- The theater box ---------- */
+
+.puppet-stage-frame {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  border: 1px solid var(--tell-border);
+  background: var(--tell-bg);
+  overflow: hidden;
+  container-type: size;
+  perspective: 900px;
+  perspective-origin: 50% 42%;
+  transition: opacity 0.4s ease;
+}
+
+.puppet-stage-sway,
+.puppet-stage-scene {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.puppet-stage-sway {
+  animation: puppet-stage-sway 9s ease-in-out infinite alternate;
+}
+
+/* The camera: pushes in as the show builds, and leans toward the pointer. */
+.puppet-stage-scene {
+  transform:
+    translateZ(var(--puppet-stage-zoom))
+    rotateY(calc(var(--puppet-stage-look-x) * 7deg))
+    rotateX(calc(var(--puppet-stage-look-y) * -4deg));
+  transition: transform 0.45s ease-out;
+}
+
+.puppet-stage-phase-closed,
+.puppet-stage-phase-rise {
+  --puppet-stage-zoom: -40px;
+}
+
+.puppet-stage-phase-show {
+  --puppet-stage-zoom: 40px;
+}
+
+.puppet-stage-phase-burn,
+.puppet-stage-phase-pull,
+.puppet-stage-phase-give {
+  --puppet-stage-zoom: 70px;
+}
+
+/* Back wall, far behind the dealer. */
+.puppet-stage-wall {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(-240px) scale(1.5);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 46px,
+      color-mix(in srgb, var(--tell-line) 70%, transparent) 46px 48px
+    ),
+    radial-gradient(ellipse 60% 50% at 50% 45%, var(--tell-surface), var(--tell-bg) 75%);
+}
+
+.puppet-stage-spot {
+  position: absolute;
+  inset: 0;
+  transform: translateZ(-150px) scale(1.2);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--tell-gold) 30%, transparent),
+    transparent 88%
+  );
+  clip-path: polygon(44% 0, 56% 0, 80% 100%, 20% 100%);
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+
+.puppet-stage-phase-rise .puppet-stage-spot,
+.puppet-stage-phase-shuffle .puppet-stage-spot,
+.puppet-stage-phase-show .puppet-stage-spot,
+.puppet-stage-phase-burn .puppet-stage-spot,
+.puppet-stage-phase-pull .puppet-stage-spot,
+.puppet-stage-phase-give .puppet-stage-spot {
+  opacity: 1;
+}
+
+/* The set is a square pinned to the bottom of the box, so the dealer and
+   the table keep their proportions at any hero width. */
+.puppet-stage-set {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(100cqw, 100cqh);
+  aspect-ratio: 1;
+  translate: -50% 0;
+  transform-style: preserve-3d;
+}
+
+/* A real floor plane, tipped flat and running back to the wall. */
+.puppet-stage-floor {
+  position: absolute;
+  left: -70%;
+  right: -70%;
+  bottom: 4%;
+  height: 490px;
+  transform-origin: 50% 100%;
+  transform: translateZ(260px) rotateX(90deg);
+  background:
+    linear-gradient(to top, transparent 30%, var(--tell-bg)),
+    repeating-linear-gradient(90deg, var(--tell-surface) 0 38px, var(--tell-line) 38px 40px);
+}
+
+.puppet-stage-dealer,
+.puppet-stage-chips {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.puppet-stage-dealer {
+  transform: translateZ(-70px);
+}
+
+/* The table: a felt top lying flat in front of the dealer, with a pleated
+   skirt hanging from its front edge like the front of a puppet booth. */
+.puppet-stage-tabletop {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 21%;
+  height: 190px;
+  transform-origin: 50% 100%;
+  transform: translateZ(150px) rotateX(90deg);
+  border: 5px solid var(--tell-outline);
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: var(--puppet-stage-felt);
+}
+
+.puppet-stage-chips {
+  transform: translateZ(60px);
+}
+
+.puppet-stage-apron {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 79%;
+  height: 46%;
+  transform: translateZ(150px);
+  border-top: 5px solid var(--tell-gold);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--puppet-stage-curtain-dark) 0,
+    var(--puppet-stage-curtain) 14px,
+    var(--puppet-stage-curtain-dark) 28px
+  );
+}
+
+.puppet-stage-chip-coral,
+.puppet-stage-chip-gold {
+  stroke: var(--tell-bg);
+  stroke-width: 1.5;
+}
+
+.puppet-stage-chip-coral {
+  fill: var(--tell-coral);
+}
+
+.puppet-stage-chip-gold {
+  fill: var(--tell-gold);
+}
+
+/* Curtains hang in front of everything and gather to the sides. */
+.puppet-stage-curtain {
+  position: absolute;
+  top: -8%;
+  bottom: -8%;
+  width: 56%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--puppet-stage-curtain-dark) 0,
+    var(--puppet-stage-curtain) 12px,
+    var(--puppet-stage-curtain-light) 20px,
+    var(--puppet-stage-curtain) 30px,
+    var(--puppet-stage-curtain-dark) 42px
+  );
+  transform: translateZ(90px) scaleX(0.17);
+  transition: transform 1s cubic-bezier(0.6, 0, 0.3, 1);
+}
+
+.puppet-stage-curtain-left {
+  left: -3%;
+  transform-origin: 0 50%;
+}
+
+.puppet-stage-curtain-right {
+  right: -3%;
+  transform-origin: 100% 50%;
+}
+
+.puppet-stage-phase-closed .puppet-stage-curtain,
+.puppet-stage-phase-handoff .puppet-stage-curtain,
+.puppet-stage-phase-idle .puppet-stage-curtain {
+  transform: translateZ(90px) scaleX(1);
+}
+
+.puppet-stage-phase-handoff .puppet-stage-curtain {
+  transition: transform 0.7s cubic-bezier(0.6, 0, 0.3, 1) 0.2s;
+}
+
+.puppet-stage-valance {
+  position: absolute;
+  top: 0;
+  left: -8%;
+  right: -8%;
+  height: 9%;
+  min-height: 36px;
+  transform: translateZ(110px);
+  background: var(--puppet-stage-curtain-dark);
+  border-bottom: 2px solid var(--tell-gold);
+}
+
+.puppet-stage-valance::after {
+  content: '';
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: radial-gradient(
+      circle at 50% 0,
+      var(--puppet-stage-curtain-dark) 13px,
+      transparent 14px
+    )
+    0 0 / 28px 14px repeat-x;
+}
+
+/* Once the card is handed over, the theater closes and fades away. */
+.puppet-stage-phase-handoff .puppet-stage-frame {
+  opacity: 0;
+  transition: opacity 0.45s ease 0.85s;
+}
+
+.puppet-stage-phase-idle .puppet-stage-frame {
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
+}
+
+/* ---------- The card he hands to you ---------- */
+
+.puppet-stage-handoff {
+  position: relative;
+  z-index: 2;
+  transform-style: preserve-3d;
+  transform:
+    translate(var(--puppet-stage-give-x), var(--puppet-stage-give-y))
+    rotateY(0deg)
+    rotateZ(0deg)
+    scale(var(--puppet-stage-give-sx), var(--puppet-stage-give-sy));
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* It pops out of the stage toward the viewer... */
+.puppet-stage-phase-give .puppet-stage-handoff {
+  opacity: 1;
+  transform:
+    translate(var(--puppet-stage-give-x), calc(var(--puppet-stage-give-y) * 0.75))
+    rotateY(0deg)
+    rotateZ(-8deg)
+    scale(calc(var(--puppet-stage-give-sx) * 2.8), calc(var(--puppet-stage-give-sy) * 2.8));
+  transition:
+    opacity 0.1s linear,
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) 0.05s;
+}
+
+/* ...then flies up, flips over, and lands as the live read. */
+.puppet-stage-phase-handoff .puppet-stage-handoff {
+  opacity: 1;
+  transform: translate(0px, 0px) rotateY(180deg) rotateZ(0deg) scale(1, 1);
+  transition: transform 1.15s cubic-bezier(0.5, 0, 0.2, 1);
+}
+
+.puppet-stage-phase-idle .puppet-stage-handoff {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  pointer-events: auto;
+}
+
+.puppet-stage-cardback,
+.puppet-stage-read {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.puppet-stage-cardback {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  border: 12px solid var(--tell-gold);
+  background: var(--puppet-stage-card);
+}
+
+.puppet-stage-cardback::before,
+.puppet-stage-cardback::after {
+  content: '';
+  position: absolute;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.puppet-stage-cardback::before {
+  inset: 14% 22%;
+  background: var(--tell-gold);
+}
+
+.puppet-stage-cardback::after {
+  inset: 21% 28%;
+  background: var(--puppet-stage-card);
+}
+
+.puppet-stage-read {
+  transform: rotateY(180deg);
+}
+
+.puppet-stage-phase-idle .puppet-stage-read {
+  transform: none;
+}
+
+.puppet-stage-phase-idle .puppet-stage-cardback {
+  display: none;
+}
+
+/* ---------- Idle: he peeks over the top edge of the read card ---------- */
+
+.puppet-stage-peek {
+  position: absolute;
+  top: calc(var(--puppet-stage-peek-space) - 125px);
+  left: 7%;
+  width: 148px;
+  height: 125px;
+  padding: 0;
+  border: 0;
+  border-radius: 12px 12px 0 0;
+  background: none;
+  overflow: hidden;
+  visibility: hidden;
+  cursor: pointer;
+}
+
+.puppet-stage-peek .puppet-dealer {
+  width: 100%;
+  height: 100%;
+  transform: translateY(105%);
+}
+
+.puppet-stage-phase-idle .puppet-stage-peek {
+  visibility: visible;
+}
+
+.puppet-stage-phase-idle .puppet-stage-peek .puppet-dealer {
+  transform: translateY(0);
+  transition: transform 0.55s cubic-bezier(0.3, 1.5, 0.5, 1) 0.15s;
+}
+
+.puppet-stage-peek:focus-visible {
+  outline: 2px solid var(--tell-gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Skip ---------- */
+
+.puppet-stage-skip {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 3;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--tell-outline);
+  background: color-mix(in srgb, var(--tell-bg) 82%, transparent);
+  color: var(--tell-muted);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.puppet-stage-skip:hover,
+.puppet-stage-skip:focus-visible {
+  border-color: var(--tell-gold);
+  color: var(--tell-gold);
+}
+
+@keyframes puppet-stage-sway {
+  from { transform: rotateY(-2.5deg); }
+  to { transform: rotateY(2.5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .puppet-stage-sway {
+    animation: none;
+  }
+
+  .puppet-stage-phase-idle .puppet-stage-peek .puppet-dealer {
+    transition: none;
+  }
+}
