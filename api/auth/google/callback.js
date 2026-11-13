@@ -52,7 +52,7 @@ export default async function handler(req, res) {
     `
 
     await createSession(res, rows[0].id, req.headers['user-agent'])
-    redirect(res, `${appUrl}/live`)
+    redirect(res, `${appUrl}/home`)
   } catch (error) {
     console.error('Google login failed:', error.message)
     redirect(res, failure)
