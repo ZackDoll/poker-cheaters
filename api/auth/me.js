@@ -2,8 +2,9 @@ import { getUserFromRequest } from '../_lib/session.js'
 
 // Returns the logged-in user, or 401.
 export default async function handler(req, res) {
+  res.setHeader('Cache-Control', 'no-store')
   try {
-    const user = await getUserFromRequest(req)
+    const user = await getUserFromRequest(req, res)
     if (!user) {
       res.status(401).json({ error: 'Not logged in' })
       return

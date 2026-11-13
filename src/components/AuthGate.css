@@ -1,0 +1,10 @@
+.authgate-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tell-bg);
+  color: var(--tell-muted);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+}

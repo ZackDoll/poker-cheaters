@@ -3,7 +3,10 @@ import { sql } from './db.js'
 
 export const SESSION_COOKIE = 'tell_session'
 export const STATE_COOKIE = 'tell_oauth_state'
-const SESSION_DAYS = 30
+const DAY_SECONDS = 24 * 60 * 60
+const SESSION_MAX_AGE = 30 * DAY_SECONDS
+// Sessions with less than this left are pushed back to the full 30 days.
+const RENEW_BELOW_SECONDS = 15 * DAY_SECONDS
 
 export function getAppUrl() {
   return (process.env.APP_URL || 'http://localhost:3000').replace(/\/$/, '')
@@ -57,25 +60,41 @@ export function redirect(res, location) {
 // Creates a login session, sets the cookie, and returns nothing.
 export async function createSession(res, userId, userAgent) {
   const token = randomBytes(32).toString('base64url')
-  const maxAge = SESSION_DAYS * 24 * 60 * 60
   await sql`
     insert into auth_sessions (user_id, token_hash, user_agent, expires_at)
-    values (${userId}, ${hashToken(token)}, ${userAgent || null}, now() + make_interval(secs => ${maxAge}))
+    values (${userId}, ${hashToken(token)}, ${userAgent || null}, now() + make_interval(secs => ${SESSION_MAX_AGE}))
   `
-  setCookie(res, SESSION_COOKIE, token, { maxAge })
+  setCookie(res, SESSION_COOKIE, token, { maxAge: SESSION_MAX_AGE })
 }
 
 // Returns the logged-in user for this request, or null.
-export async function getUserFromRequest(req) {
+// If `res` is given and the session is past its halfway point, it is renewed
+// to the full 30 days (sliding expiry), so active users stay logged in.
+export async function getUserFromRequest(req, res) {
   const token = parseCookies(req)[SESSION_COOKIE]
   if (!token) return null
+  const tokenHash = hashToken(token)
   const rows = await sql`
-    select u.id, u.email, u.name, u.avatar_url
+    select u.id, u.email, u.name, u.avatar_url,
+           extract(epoch from (s.expires_at - now())) as seconds_left
     from auth_sessions s
     join users u on u.id = s.user_id
-    where s.token_hash = ${hashToken(token)} and s.expires_at > now()
+    where s.token_hash = ${tokenHash} and s.expires_at > now()
   `
-  return rows[0] || null
+  const row = rows[0]
+  if (!row) return null
+
+  if (res && Number(row.seconds_left) < RENEW_BELOW_SECONDS) {
+    await sql`
+      update auth_sessions
+      set expires_at = now() + make_interval(secs => ${SESSION_MAX_AGE})
+      where token_hash = ${tokenHash}
+    `
+    setCookie(res, SESSION_COOKIE, token, { maxAge: SESSION_MAX_AGE })
+  }
+
+  const { seconds_left: _secondsLeft, ...user } = row
+  return user
 }
 
 export async function destroySession(req, res) {
