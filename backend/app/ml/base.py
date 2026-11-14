@@ -6,7 +6,7 @@ from pathlib import Path
 
 from app.schemas.game import GameState
 from app.schemas.prediction import Reason
-from app.schemas.signals import Evidence, SignalOutput, SignalStatus
+from app.schemas.signals import Evidence, LiveFaceFeatures, SignalOutput, SignalStatus
 
 
 @dataclass(frozen=True)
@@ -20,6 +20,8 @@ class DecisionContext:
     state: GameState
     video_path: Path | None = None
     audio_path: Path | None = None
+    # Face measurements already computed in the player's browser (live rooms only).
+    live_face: LiveFaceFeatures | None = None
 
 
 class SignalModel(ABC):

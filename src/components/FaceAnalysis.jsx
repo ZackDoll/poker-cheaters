@@ -1,110 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
-import { createFaceLandmarker } from '../helpers/faceLandmarker.js'
-import { createAccumulator, addSample, finalizeBaseline, deviations, deviationScore } from '../helpers/baselineStats.js'
-import { framingIssue, createHistory, sustainedRead, expressionSummary } from '../helpers/faceRead.js'
+import { useFaceRead, CALIBRATION_MS } from '../helpers/useFaceRead.js'
+import { deviationScore } from '../helpers/baselineStats.js'
+import { expressionSummary } from '../helpers/faceRead.js'
 import './FaceAnalysis.css'
 
-const CALIBRATION_MS = 10000
-
 function FaceAnalysis({ videoRef }) {
-  const [status, setStatus] = useState('Loading face model…')
-  const [error, setError] = useState(null)
-  const [tracking, setTracking] = useState(false)
-  const [calibrating, setCalibrating] = useState(false)
-  const [progress, setProgress] = useState(0)
-  const [hasBaseline, setHasBaseline] = useState(false)
-  const [rows, setRows] = useState([])
-  const [settled, setSettled] = useState(false)
-  const analysis = useRef({ accumulator: null, baseline: null, elapsed: 0, history: createHistory() })
-
-  useEffect(() => {
-    const state = { cancelled: false, model: null, frame: null, lastTime: -1, lastRun: 0, smoothed: null }
-    function loop(now) {
-      if (state.cancelled) return
-      state.frame = requestAnimationFrame(loop)
-      const video = videoRef.current
-      if (!video || video.readyState < 2 || video.paused || now - state.lastRun < 65 || video.currentTime === state.lastTime) return
-      const elapsed = Math.min(150, state.lastRun ? now - state.lastRun : 0)
-      state.lastRun = now
-      state.lastTime = video.currentTime
-      try {
-        const result = state.model.detectForVideo(video, now)
-        const found = result.faceBlendshapes?.[0]?.categories
-        const issue = framingIssue(result.faceLandmarks?.[0])
-        if (!found?.length || issue) {
-          state.smoothed = null
-          analysis.current.history = createHistory()
-          setSettled(false)
-          setTracking(false)
-          setRows([])
-          setStatus((issue || 'No face detected.') + ' Read paused.')
-          return
-        }
-        const prior = state.smoothed
-        const alpha = 1 - Math.exp(-elapsed / 180)
-        const categories = found.map((c) => ({ ...c,
-          score: prior?.has(c.categoryName) ? prior.get(c.categoryName) + alpha * (c.score - prior.get(c.categoryName)) : c.score,
-        }))
-        state.smoothed = new Map(categories.map((c) => [c.categoryName, c.score]))
-        setTracking(true)
-        const current = analysis.current
-        if (current.accumulator) {
-          addSample(current.accumulator, categories)
-          current.elapsed += prior ? elapsed : 0
-          setProgress(current.elapsed)
-          setStatus('Hold a relaxed, neutral face…')
-          if (current.elapsed >= CALIBRATION_MS && current.accumulator.count >= 60) {
-            current.baseline = finalizeBaseline(current.accumulator)
-            current.accumulator = null
-            setCalibrating(false)
-            setHasBaseline(true)
-          }
-        } else {
-          setStatus(current.baseline ? 'Tracking changes from your baseline' : 'Face detected — calibrate to begin')
-        }
-        if (current.baseline) {
-          const read = sustainedRead(current.history, now, deviations(current.baseline, categories))
-          setRows(read.rows)
-          setSettled(read.ready)
-        } else {
-          setRows([])
-        }
-      } catch {
-        cancelAnimationFrame(state.frame)
-        setTracking(false)
-        setRows([])
-        setError('Face analysis stopped. End the session and start again to retry.')
-      }
-    }
-    async function start() {
-      try {
-        const model = await createFaceLandmarker()
-        if (state.cancelled) {
-          model.close()
-          return
-        }
-        state.model = model
-        state.frame = requestAnimationFrame(loop)
-      } catch {
-        if (!state.cancelled) setError('Could not load face analysis. Check your internet connection, then restart the session.')
-      }
-    }
-    start()
-    return () => {
-      state.cancelled = true
-      cancelAnimationFrame(state.frame)
-      state.model?.close()
-    }
-  }, [videoRef])
-
-  function calibrate() {
-    analysis.current = { accumulator: createAccumulator(), baseline: null, elapsed: 0, history: createHistory() }
-    setSettled(false)
-    setProgress(0)
-    setRows([])
-    setHasBaseline(false)
-    setCalibrating(true)
-  }
+  const { status, error, tracking, calibrating, progress, hasBaseline, rows, settled, calibrate } =
+    useFaceRead(videoRef)
 
   return (
     <section className="face-analysis" aria-label="Facial expression analysis">
@@ -141,4 +42,3 @@ function FaceAnalysis({ videoRef }) {
 }
 
 export default FaceAnalysis
-

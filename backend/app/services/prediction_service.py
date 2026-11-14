@@ -120,31 +120,23 @@ def run_signal_models(
     return runs
 
 
-def create_prediction(
+def predict_and_save(
     db: Session,
     registry: ModelRegistry,
     session_id: UUID,
-    state: GameState,
-    video: UploadFile | None,
-    audio: UploadFile | None,
+    ctx: DecisionContext,
+    *,
+    player_id: UUID | None = None,
+    hand_id: UUID | None = None,
 ) -> Decision:
-    if db.get(GameSession, session_id) is None:
-        raise NotFoundError(f"Session {session_id} not found")
-    db.rollback()  # Release the DB connection while the models run.
-
-    # Clips exist only inside this block. Only derived outputs are ever stored.
-    with tempfile.TemporaryDirectory(prefix="poker-clip-") as directory:
-        ctx = DecisionContext(
-            state=state,
-            video_path=_save_upload(video, Path(directory), "video", VIDEO_SUFFIXES),
-            audio_path=_save_upload(audio, Path(directory), "audio", AUDIO_SUFFIXES),
-        )
-        runs = run_signal_models(registry, ctx, get_settings().signal_timeout_seconds)
-
+    """Run every signal model on `ctx`, fuse the outputs and store the decision."""
+    runs = run_signal_models(registry, ctx, get_settings().signal_timeout_seconds)
     result = registry.decision_model.fuse([run.output for run in runs])
     decision = Decision(
         session_id=session_id,
-        game_state=state.model_dump(mode="json"),
+        player_id=player_id,
+        hand_id=hand_id,
+        game_state=ctx.state.model_dump(mode="json"),
         bluff_probability=result.bluff_probability,
         calibrated=result.calibrated,
         reasons=[reason.model_dump(mode="json") for reason in result.reasons],
@@ -166,6 +158,28 @@ def create_prediction(
     db.commit()
     db.refresh(decision)
     return decision
+
+
+def create_prediction(
+    db: Session,
+    registry: ModelRegistry,
+    session_id: UUID,
+    state: GameState,
+    video: UploadFile | None,
+    audio: UploadFile | None,
+) -> Decision:
+    if db.get(GameSession, session_id) is None:
+        raise NotFoundError(f"Session {session_id} not found")
+    db.rollback()  # Release the DB connection while the models run.
+
+    # Clips exist only inside this block. Only derived outputs are ever stored.
+    with tempfile.TemporaryDirectory(prefix="poker-clip-") as directory:
+        ctx = DecisionContext(
+            state=state,
+            video_path=_save_upload(video, Path(directory), "video", VIDEO_SUFFIXES),
+            audio_path=_save_upload(audio, Path(directory), "audio", AUDIO_SUFFIXES),
+        )
+        return predict_and_save(db, registry, session_id, ctx)
 
 
 def get_prediction(db: Session, prediction_id: UUID) -> Decision:

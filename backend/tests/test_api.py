@@ -32,6 +32,7 @@ def test_health_reports_database_and_models(client):
     assert body["database"] == "up"
     assert {m["name"]: m["status"] for m in body["models"]} == {
         "facial": "loaded",
+        "live_facial": "loaded",
         "speech": "loaded",
         "statistics": "loaded",
     }
@@ -47,6 +48,7 @@ def test_prediction_with_state_only(client, session_id):
     assert {r["source"] for r in body["reasons"]} == {"statistics"}
     assert {s["model_name"]: s["status"] for s in body["signals"]} == {
         "facial": "stub",
+        "live_facial": "unavailable",
         "speech": "stub",
         "statistics": "ok",
     }
@@ -71,9 +73,7 @@ def test_invalid_state_returns_422(client, session_id):
     assert predict(client, session_id, make_state(board=["Kd"])).status_code == 422
     target_cards = make_state(target_hole_cards=["As", "Ks"])
     assert predict(client, session_id, target_cards).status_code == 422
-    response = client.post(
-        "/api/predictions", data={"session_id": session_id, "state": "not json"}
-    )
+    response = client.post("/api/predictions", data={"session_id": session_id, "state": "not json"})
     assert response.status_code == 422
 
 
@@ -94,7 +94,7 @@ def test_outcome_labels_the_decision(client, session_id):
     assert row.was_bluff is True
     assert row.revealed_target_cards == ["4c", "5c"]
     assert row.labeled_at is not None
-    assert signal_rows == 3
+    assert signal_rows == 4
 
 
 def test_outcome_rejects_cards_already_visible(client, session_id):

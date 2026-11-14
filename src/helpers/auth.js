@@ -1,4 +1,4 @@
-import api from './api.js'
+import api, { gameApi } from './api.js'
 
 // Returns the logged-in user ({ id, email, name, avatarUrl }) or null.
 export async function getCurrentUser() {
@@ -12,5 +12,25 @@ export async function getCurrentUser() {
 }
 
 export async function logout() {
+  clearRoomToken()
   await api.post('/auth/logout')
 }
+
+// The game server (FastAPI) trusts a short-lived token signed by the login backend.
+let cachedToken = null
+
+export async function getRoomToken() {
+  if (cachedToken && cachedToken.expiresAt - Date.now() > 60_000) return cachedToken.token
+  const response = await api.get('/auth/room-token')
+  cachedToken = response.data
+  return cachedToken.token
+}
+
+export function clearRoomToken() {
+  cachedToken = null
+}
+
+gameApi.interceptors.request.use(async (config) => {
+  config.headers.Authorization = `Bearer ${await getRoomToken()}`
+  return config
+})

@@ -1,7 +1,45 @@
 .playing-card {
-  width: 56px;
-  height: 78px;
+  --card-w: 56px;
+  --card-h: 78px;
+  width: var(--card-w);
+  height: var(--card-h);
+  perspective: 600px;
+  flex-shrink: 0;
+}
+
+.playing-card-sm {
+  --card-w: 38px;
+  --card-h: 54px;
+  font-size: 15px;
+}
+
+.playing-card-lg {
+  --card-w: 84px;
+  --card-h: 118px;
+}
+
+.playing-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s var(--tell-ease);
+}
+
+.playing-card-down .playing-card-inner {
+  transform: rotateY(180deg);
+}
+
+.playing-card-front,
+.playing-card-back {
+  position: absolute;
+  inset: 0;
   border-radius: 8px;
+  backface-visibility: hidden;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.playing-card-front {
   background: var(--tell-text);
   display: flex;
   flex-direction: column;
@@ -11,6 +49,28 @@
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 800;
   font-size: 22px;
+}
+
+.playing-card-lg .playing-card-front {
+  font-size: 32px;
+}
+
+.playing-card-lg .playing-card-suit {
+  width: 28px;
+  height: 28px;
+}
+
+.playing-card-sm .playing-card-suit {
+  width: 13px;
+  height: 13px;
+}
+
+.playing-card-back {
+  transform: rotateY(180deg);
+  background:
+    repeating-linear-gradient(45deg, rgba(244, 201, 93, 0.16) 0 4px, transparent 4px 8px),
+    linear-gradient(145deg, #1d4d3c, #0c2a20);
+  border: 2px solid var(--tell-text);
 }
 
 .playing-card-black {
@@ -24,4 +84,33 @@
 /* Suit icon takes the card's text color. */
 .playing-card-suit {
   fill: currentColor;
+}
+
+.playing-card-deal {
+  animation: playing-card-deal 0.55s var(--tell-ease) both;
+  animation-delay: var(--deal-delay);
+}
+
+.playing-card-win .playing-card-front {
+  animation: playing-card-glow 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes playing-card-deal {
+  from {
+    opacity: 0;
+    transform: translate(-40px, -90px) rotate(-14deg) scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes playing-card-glow {
+  from {
+    box-shadow: 0 0 0 2px var(--tell-gold), 0 0 6px rgba(244, 201, 93, 0.4);
+  }
+  to {
+    box-shadow: 0 0 0 2px var(--tell-gold), 0 0 20px rgba(244, 201, 93, 0.9);
+  }
 }

@@ -1,0 +1,43 @@
+.stattile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border: 1px solid var(--tell-border);
+  border-radius: 16px;
+  background: var(--tell-surface);
+  animation: stattile-in 0.5s var(--tell-ease) both;
+}
+
+.stattile-label {
+  font-size: 13px;
+  color: var(--tell-muted);
+}
+
+.stattile-value {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.stattile-up {
+  color: var(--tell-green);
+}
+
+.stattile-down {
+  color: var(--tell-coral);
+}
+
+.stattile-hint {
+  font-size: 12px;
+  color: var(--tell-dim);
+}
+
+@keyframes stattile-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}

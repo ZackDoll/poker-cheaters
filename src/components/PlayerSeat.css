@@ -1,0 +1,211 @@
+.playerseat {
+  position: relative;
+  width: clamp(120px, 14vw, 168px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  animation: playerseat-in 0.5s var(--tell-ease) both;
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+.playerseat-read {
+  position: absolute;
+  z-index: 4;
+  bottom: calc(100% - 22px);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.playerseat-read > * {
+  pointer-events: auto;
+}
+
+/* The timer ring is a conic gradient showing through a 4px gap around the tile. */
+.playerseat-ring {
+  width: 100%;
+  padding: 4px;
+  border-radius: 18px;
+  background: conic-gradient(var(--tell-gold) calc(var(--progress, 0) * 1turn), var(--tell-rim) 0);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.playerseat-tile {
+  position: relative;
+  border-radius: 14px;
+  overflow: visible;
+}
+
+.playerseat-active .playerseat-ring {
+  animation: playerseat-glow 1.4s ease-in-out infinite alternate;
+}
+
+.playerseat-folded {
+  opacity: 0.45;
+  filter: grayscale(0.7);
+}
+
+.playerseat-away {
+  opacity: 0.6;
+}
+
+.playerseat-cards {
+  position: absolute;
+  right: -10px;
+  bottom: -14px;
+  display: flex;
+}
+
+.playerseat-cards .playing-card + .playing-card {
+  margin-left: -16px;
+  transform: rotate(7deg);
+}
+
+.playerseat-cards .playing-card:first-child {
+  transform: rotate(-7deg);
+}
+
+.playerseat-button {
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--tell-text);
+  color: var(--tell-bg);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+  animation: playerseat-drop 0.5s var(--tell-ease) both;
+}
+
+.playerseat-tag {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(11, 20, 17, 0.85);
+  color: var(--tell-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.playerseat-tag-allin {
+  background: var(--tell-coral);
+  color: var(--tell-bg);
+  font-weight: 500;
+}
+
+.playerseat-plate {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid var(--tell-border);
+  border-radius: 12px;
+  background: rgba(11, 20, 17, 0.92);
+  line-height: 1.25;
+}
+
+.playerseat-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.playerseat-you {
+  color: var(--tell-gold);
+  font-weight: 500;
+}
+
+.playerseat-stack {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--tell-gold);
+}
+
+.playerseat-kick {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--tell-coral);
+  color: var(--tell-bg);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.playerseat:hover .playerseat-kick,
+.playerseat-kick:focus-visible {
+  opacity: 1;
+}
+
+.playerseat-winner .playerseat-ring {
+  background: conic-gradient(from 0deg, var(--tell-gold), #fff2c4, var(--tell-gold), #fff2c4, var(--tell-gold));
+  animation: playerseat-spin 2.4s linear infinite;
+}
+
+.playerseat-winner .playerseat-plate {
+  border-color: var(--tell-gold);
+  animation: playerseat-shimmer 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes playerseat-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(12px);
+  }
+}
+
+@keyframes playerseat-glow {
+  from {
+    box-shadow: 0 0 0 0 rgba(244, 201, 93, 0.5), 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+  to {
+    box-shadow: 0 0 22px 4px rgba(244, 201, 93, 0.6), 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@keyframes playerseat-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(1.4);
+  }
+}
+
+@keyframes playerseat-spin {
+  to {
+    filter: hue-rotate(20deg) brightness(1.15);
+  }
+}
+
+@keyframes playerseat-shimmer {
+  from {
+    box-shadow: 0 0 0 rgba(244, 201, 93, 0);
+  }
+  to {
+    box-shadow: 0 0 18px rgba(244, 201, 93, 0.7);
+  }
+}

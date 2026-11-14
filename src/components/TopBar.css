@@ -1,0 +1,109 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 60px;
+  padding: 0 32px;
+  background: var(--tell-bg);
+  border-bottom: 1px solid var(--tell-line);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.topbar-compact {
+  min-height: 48px;
+  padding: 0 20px;
+}
+
+.topbar-brand {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  color: var(--tell-text);
+  text-decoration: none;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.topbar-play {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--tell-gold);
+  background: rgba(244, 201, 93, 0.08);
+  color: var(--tell-gold);
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, transform 0.2s var(--tell-ease);
+}
+
+.topbar-play:hover {
+  background: var(--tell-gold);
+  color: var(--tell-bg);
+  transform: translateY(-1px);
+}
+
+.topbar-play.active {
+  background: var(--tell-gold);
+  color: var(--tell-bg);
+}
+
+.topbar-play-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tell-coral);
+  animation: topbar-pulse 1.8s ease-out infinite;
+}
+
+.topbar-room {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px 7px 16px;
+  border: 1px solid var(--tell-border);
+  border-radius: 999px;
+  background: var(--tell-surface);
+  color: var(--tell-muted);
+  font-size: 14px;
+  text-decoration: none;
+  animation: topbar-slide 0.4s var(--tell-ease) both;
+}
+
+.topbar-room:hover {
+  border-color: var(--tell-gold);
+  color: var(--tell-text);
+}
+
+.topbar-room-code {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--tell-bg);
+  color: var(--tell-gold);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.12em;
+}
+
+@keyframes topbar-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 122, 89, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 0 9px rgba(255, 122, 89, 0);
+  }
+}
+
+@keyframes topbar-slide {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}

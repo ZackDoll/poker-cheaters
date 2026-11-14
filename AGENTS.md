@@ -54,6 +54,17 @@ Never copy an uploaded artifact in word for word. Always refactor it to follow t
 
 - All API queries use `axios`, through the shared instance in `helpers/api.js`. Do not use `fetch`.
 - Base URL comes from `VITE_API_URL` (defaults to `/api`).
+- Calls to the FastAPI game server (rooms, sessions, players) use the second instance, `gameApi`. Its base URL is `VITE_GAME_API_URL` (defaults to `/api`), and `helpers/auth.js` attaches the signed room token to every request.
+- The one exception to "axios only" is the live room WebSocket (`helpers/roomSocket.js`), because axios cannot open a WebSocket. Its URL comes from `VITE_GAME_WS_URL`.
+
+## Live rooms (the "Play live" tab)
+
+- **Navigation:** "Play live" lives in the header (`components/TopBar.jsx`), not the sidebar. `/play/:code` is immersive: no sidebar, and a compact header.
+- **Pages:** `PlayLobbyPage` (host or join), `PlayRoomPage` (check-in, then the table), `SessionsPage`/`SessionDetailPage` (history), `OpponentsPage`/`PlayerProfilePage` (profiles).
+- **Video and voice** go peer to peer through `helpers/peerMesh.js`. The server only relays signaling. The player with the smaller id sends the first offer, so two players never offer at once (see the comment in that file for why).
+- **Face reads** run in each player's own browser (`helpers/useFaceRead.js`, shared with the `/live` test page) and only derived scores are sent. Never send or store video, audio or landmarks.
+- **Identity:** `api/auth/room-token.js` signs a one-hour token with `ROOM_TOKEN_SECRET`. FastAPI verifies it with the same secret. The two databases stay separate.
+- **Local run:** use `vercel dev` for the login functions, plus FastAPI on port 8000, and set `VITE_GAME_API_URL=http://localhost:8000/api` and `VITE_GAME_WS_URL=ws://localhost:8000/api`. Plain `npm run dev` has no login, so rooms don't work there.
 
 ## Commands
 
@@ -85,6 +96,15 @@ The prediction backend: FastAPI (Python 3.12 or 3.13) under `backend/`, with a l
 - Never accept the analysed player's cards as prediction input. They're only allowed in the outcome endpoint.
 - Never store raw video or audio. Clips are deleted when the request ends.
 - Keep `calibrated=False` until a decision model has been validated on held-out data.
+
+## Live rooms
+
+- `services/poker/` is the pure game engine (deck, hand evaluator, `PokerTable`, `bluff_rule.py`) with no I/O. `services/rooms/` runs rooms: `room.py` (one room), `manager.py` (all rooms), `persistence.py` (every database write, so tests can swap in a fake).
+- Rooms live in memory, so run **one** uvicorn worker. Several instances would need shared state such as Redis. Where FastAPI is hosted in production is still undecided, and a host that supports WebSockets is required.
+- A bet or raise is judged with a `GameState` built from the table. The bettor's cards are never put in it. After the hand the server labels the decision with `outcome_source="dealt"` using the cards it dealt. That is the only way a live decision gets its label.
+- `bluff_rule.py` is the working definition of a bluff for scoring live bets. It needs team sign-off before the labels are used for training.
+- `live_facial` is the signal model that reads the face scores a browser sends. Its tell evidence has `log_odds` 0, so it feeds the player profile and never changes the score.
+- Room tokens (`services/room_token.py`) and the CORS origins come from `ROOM_TOKEN_SECRET` and `CORS_ORIGINS` in `backend/.env`. With no secret, rooms refuse every connection.
 
 ## Commands
 

@@ -30,21 +30,39 @@ const SUITS = {
   },
 }
 
-function PlayingCard({ rank, suit }) {
-  const { red, shape } = SUITS[suit]
+// size: 'sm' | 'md' | 'lg'.
+// faceDown shows the back; switching it to false flips the card over.
+// deal plays the fly-in animation on mount, after dealDelay milliseconds.
+function PlayingCard({ rank, suit, faceDown = false, size = 'md', deal = false, dealDelay = 0, win = false }) {
+  const { red, shape } = suit ? SUITS[suit] : { red: false, shape: null }
+  const classes = [
+    'playing-card',
+    `playing-card-${size}`,
+    red ? 'playing-card-red' : 'playing-card-black',
+    deal ? 'playing-card-deal' : '',
+    faceDown ? 'playing-card-down' : '',
+    win ? 'playing-card-win' : '',
+  ]
   return (
-    <div className={`playing-card ${red ? 'playing-card-red' : 'playing-card-black'}`}>
-      <span>{rank}</span>
-      <svg
-        className="playing-card-suit"
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        aria-label={suit}
-        role="img"
-      >
-        {shape}
-      </svg>
+    <div className={classes.filter(Boolean).join(' ')} style={{ '--deal-delay': `${dealDelay}ms` }}>
+      <div className="playing-card-inner">
+        <div className="playing-card-front">
+          <span>{rank}</span>
+          {shape && (
+            <svg
+              className="playing-card-suit"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              aria-label={suit}
+              role="img"
+            >
+              {shape}
+            </svg>
+          )}
+        </div>
+        <div className="playing-card-back" aria-hidden="true" />
+      </div>
     </div>
   )
 }
