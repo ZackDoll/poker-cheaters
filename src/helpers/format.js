@@ -7,19 +7,13 @@ export function formatDateTime(iso) {
   return `${date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })} · ${date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })}`
 }
 
-export function formatNet(chips) {
-  if (chips === null || chips === undefined) return '—'
-  return `${chips > 0 ? '+' : ''}${chips.toLocaleString('en-US')}`
+export function capitalize(text) {
+  return text ? `${text[0].toUpperCase()}${text.slice(1)}` : ''
 }
 
-export function netTone(chips) {
-  if (!chips) return 'flat'
-  return chips > 0 ? 'up' : 'down'
-}
-
-export function errorText(error) {
-  if (error?.response?.status === 401 || error?.response?.status === 503) {
-    return 'Could not reach the game server. Check that you are signed in and the backend is running.'
-  }
-  return 'Something went wrong loading this page. Try again in a moment.'
+// 'low' | 'mid' | 'high' for a bluff likelihood percentage (0-100), used to colour reads.
+export function getLikelihoodTone(likelihood) {
+  if (likelihood >= 65) return 'high'
+  if (likelihood >= 40) return 'mid'
+  return 'low'
 }

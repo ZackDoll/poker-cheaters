@@ -20,19 +20,18 @@ Only `App.jsx`, `App.css`, `main.jsx`, and `index.css` live at the `src/` root.
 
 ## Login and backend
 
-The project has two backends:
+The app runs on Vercel alone: static frontend plus serverless functions in `api/` (Node), with Neon Postgres.
 
-- **Login:** Vercel serverless functions in `api/` (Node), described in this section.
-- **Predictions:** FastAPI in `backend/` (Python), described under [Backend](#backend) below.
-
-Still to agree as a team: how both run together locally, where FastAPI is hosted in production, and whether both use the same database.
+- **Login** (`api/auth/*`) is described below.
+- **Card tracker** (`api/opponents.js`, `sessions.js`, `hands.js`, `actions.js`) is described under [Card tracker](#card-tracker).
+- The FastAPI prediction skeleton in `backend/` is **dormant**: it isn't deployed or called by the frontend. See [Backend](#backend-dormant).
 
 - The username/password form on the login page is visual only (non-functioning). Do not add password auth unless asked.
 - Google OAuth is the working login. The login backend is Vercel serverless functions in `api/` (`api/auth/google.js`, `api/auth/google/callback.js`, `api/auth/me.js`, `api/auth/logout.js`), with shared code in `api/_lib/`. Database is Postgres (Neon) via `@neondatabase/serverless`; schema is in `db/schema.sql`.
 - Sessions are httpOnly cookies; only a sha256 hash of the token is stored in `auth_sessions`.
 - Secrets (`GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `DATABASE_URL`, `APP_URL`) live only in `.env.local` and Vercel env vars. Never commit them or paste them into chat. `.env.example` lists the names.
 - Frontend calls to the API still go through the axios instance (`helpers/api.js`, `helpers/auth.js`). The Google button is a plain link to `/api/auth/google`, because it is a browser redirect, not an API query.
-- Run locally with `vercel dev` (port 3000) so the `api/` functions work. Plain `npm run dev` forwards every `/api` request to FastAPI on port 8000 (see `vite.config.js`), so login doesn't work there.
+- Run locally with `vercel dev` (port 3000) so the `api/` functions work. Plain `npm run dev` serves only the frontend, so login and the tracker don't work there. `vercel env pull` can't fetch Sensitive values, so copy the Google and Neon values in by hand (see `.env.example`).
 
 ## Uploaded artifacts (zips, HTML, mockups)
 
@@ -54,17 +53,19 @@ Never copy an uploaded artifact in word for word. Always refactor it to follow t
 
 - All API queries use `axios`, through the shared instance in `helpers/api.js`. Do not use `fetch`.
 - Base URL comes from `VITE_API_URL` (defaults to `/api`).
-- Calls to the FastAPI game server (rooms, sessions, players) use the second instance, `gameApi`. Its base URL is `VITE_GAME_API_URL` (defaults to `/api`), and `helpers/auth.js` attaches the signed room token to every request.
-- The one exception to "axios only" is the live room WebSocket (`helpers/roomSocket.js`), because axios cannot open a WebSocket. Its URL comes from `VITE_GAME_WS_URL`.
+- Tracker calls are wrapped in `helpers/tracker.js` (one function per endpoint, plus `apiErrorText` for readable errors).
 
-## Live rooms (the "Play live" tab)
+## Card tracker
 
-- **Navigation:** "Play live" lives in the header (`components/TopBar.jsx`), not the sidebar. `/play/:code` is immersive: no sidebar, and a compact header.
-- **Pages:** `PlayLobbyPage` (host or join), `PlayRoomPage` (check-in, then the table), `SessionsPage`/`SessionDetailPage` (history), `OpponentsPage`/`PlayerProfilePage` (profiles).
-- **Video and voice** go peer to peer through `helpers/peerMesh.js`. The server only relays signaling. The player with the smaller id sends the first offer, so two players never offer at once (see the comment in that file for why).
-- **Face reads** run in each player's own browser (`helpers/useFaceRead.js`, shared with the `/live` test page) and only derived scores are sent. Never send or store video, audio or landmarks.
-- **Identity:** `api/auth/room-token.js` signs a one-hour token with `ROOM_TOKEN_SECRET`. FastAPI verifies it with the same secret. The two databases stay separate.
-- **Local run:** use `vercel dev` for the login functions, plus FastAPI on port 8000, and set `VITE_GAME_API_URL=http://localhost:8000/api` and `VITE_GAME_WS_URL=ws://localhost:8000/api`. Plain `npm run dev` has no login, so rooms don't work there.
+One person logs a game at a real or online table: they pick an opponent, tap what that opponent did, get a bluff read on every bet or raise, and enter the cards an opponent shows. Nothing is real-time or multi-user, so it needs no WebSocket and fits on Vercel alone.
+
+- **Pages:** `SessionsPage` (start or resume), `TrackerPage` at `/track/:sessionId` (the live screen), `SessionDetailPage` (review), `OpponentsPage` / `PlayerProfilePage` (profiles).
+- **Data:** tables `tracker_opponents`, `tracker_sessions`, `tracker_hands`, `tracker_actions` in `db/schema.sql`. Everything belongs to one user, and every query filters by the logged-in user's id (see `ownedSession` etc. in `api/_lib/tracker.js`). Opponents are names the user types in, not accounts.
+- **Scoring** lives in `api/_lib/`: `scoring.js` (hand-set rules on the bet and board, plus the face score, fused as log-odds), `bluffRule.js` (the label), `handEval.js`, `cards.js`. The estimate is **uncalibrated**: never call it a probability.
+- **A bluff label** comes only from cards the user enters at showdown (`PATCH /api/hands` with `shown`). A bet is never given a label otherwise, and the opponent's cards are never an input to the read. `bluffRule.js` is a working definition that needs team sign-off before the labels are used for training.
+- **Face reads** run in the user's own browser (`helpers/useFaceRead.js`). `helpers/faceCollector.js` boils the last 6 seconds down to `{ samples, trackedRatio, meanScore, deviations }`, and only that is sent with a logged action. Never send or store video, audio or landmarks. Tell evidence has log-odds 0, so it feeds the opponent profile and never changes the score.
+- **Adding a function:** each file in `api/` is one serverless function (Vercel's Hobby plan allows 12), so group methods in one file using `route()` from `api/_lib/http.js` and pass ids as `?id=`.
+- **Tests:** there is no JS test runner yet. When changing `api/_lib/`, check it against known hands and bluff cases before relying on it.
 
 ## Commands
 
@@ -72,7 +73,9 @@ Never copy an uploaded artifact in word for word. Always refactor it to follow t
 - `npm run build` — production build
 - `npm run lint` — lint
 
-# Backend
+# Backend (dormant)
+
+**Not deployed and not used by the frontend.** The live-rooms work that once lived here was removed when the app moved to Vercel alone (it is in git history, commit `f0fc29a`). The rest is kept for now so teammates' prediction/ML work isn't lost, and may be deleted later.
 
 The prediction backend: FastAPI (Python 3.12 or 3.13) under `backend/`, with a local Postgres in Docker. This database is separate from the Neon database the login uses. Run commands from `backend/` with the virtual environment active.
 
@@ -96,15 +99,6 @@ The prediction backend: FastAPI (Python 3.12 or 3.13) under `backend/`, with a l
 - Never accept the analysed player's cards as prediction input. They're only allowed in the outcome endpoint.
 - Never store raw video or audio. Clips are deleted when the request ends.
 - Keep `calibrated=False` until a decision model has been validated on held-out data.
-
-## Live rooms
-
-- `services/poker/` is the pure game engine (deck, hand evaluator, `PokerTable`, `bluff_rule.py`) with no I/O. `services/rooms/` runs rooms: `room.py` (one room), `manager.py` (all rooms), `persistence.py` (every database write, so tests can swap in a fake).
-- Rooms live in memory, so run **one** uvicorn worker. Several instances would need shared state such as Redis. Where FastAPI is hosted in production is still undecided, and a host that supports WebSockets is required.
-- A bet or raise is judged with a `GameState` built from the table. The bettor's cards are never put in it. After the hand the server labels the decision with `outcome_source="dealt"` using the cards it dealt. That is the only way a live decision gets its label.
-- `bluff_rule.py` is the working definition of a bluff for scoring live bets. It needs team sign-off before the labels are used for training.
-- `live_facial` is the signal model that reads the face scores a browser sends. Its tell evidence has `log_odds` 0, so it feeds the player profile and never changes the score.
-- Room tokens (`services/room_token.py`) and the CORS origins come from `ROOM_TOKEN_SECRET` and `CORS_ORIGINS` in `backend/.env`. With no secret, rooms refuse every connection.
 
 ## Commands
 

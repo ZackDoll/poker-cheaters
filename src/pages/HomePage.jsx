@@ -8,7 +8,7 @@ function HomePage({ user }) {
     <section className="home-page">
       <h1 className="home-title">{firstName ? `Welcome back, ${firstName}` : 'Poker Cheaters'}</h1>
       <p className="home-subtitle">Placeholder tagline goes here.</p>
-      <Link className="home-cta" to="/live">Go live</Link>
+      <Link className="home-cta" to="/sessions">Track a game</Link>
     </section>
   )
 }

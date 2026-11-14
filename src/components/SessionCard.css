@@ -29,26 +29,32 @@
   color: var(--tell-muted);
 }
 
-.sessioncard-code {
+.sessioncard-status {
   padding: 3px 10px;
   border-radius: 999px;
   background: var(--tell-bg);
-  color: var(--tell-gold);
+  color: var(--tell-dim);
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
+}
+
+.sessioncard-open {
+  color: var(--tell-green);
+}
+
+.sessioncard-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
 }
 
 .sessioncard-players {
-  display: flex;
-}
-
-.sessioncard-player + .sessioncard-player {
-  margin-left: -8px;
-}
-
-.sessioncard-player .avatar {
-  border: 2px solid var(--tell-surface);
+  font-size: 14px;
+  color: var(--tell-muted);
 }
 
 .sessioncard-stats {
@@ -61,19 +67,6 @@
 
 .sessioncard-stats strong {
   color: var(--tell-text);
-}
-
-.sessioncard-net {
-  margin-left: auto;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.sessioncard-net-up {
-  color: var(--tell-green);
-}
-
-.sessioncard-net-down {
-  color: var(--tell-coral);
 }
 
 @keyframes sessioncard-in {

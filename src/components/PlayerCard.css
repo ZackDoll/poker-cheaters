@@ -17,11 +17,6 @@
   transform: translateY(-3px);
 }
 
-.playercard-me {
-  border-color: var(--tell-outline);
-  background: linear-gradient(160deg, rgba(244, 201, 93, 0.08), var(--tell-surface) 60%);
-}
-
 .playercard-head {
   display: flex;
   align-items: center;
@@ -70,14 +65,6 @@
   margin: 0;
   font-family: 'JetBrains Mono', monospace;
   font-size: 16px;
-}
-
-.playercard-net-up {
-  color: var(--tell-green);
-}
-
-.playercard-net-down {
-  color: var(--tell-coral);
 }
 
 @keyframes playercard-in {
