@@ -23,3 +23,27 @@ body {
   --tell-coral: #ff7a59;
   --tell-green: #6fd3a5;
 }
+
+/* Live table: felt, wood rim and chips. */
+:root {
+  --tell-felt: #0f4a37;
+  --tell-felt-deep: #093528;
+  --tell-rim: #3b2a1c;
+  --tell-rim-light: #5a4029;
+  --tell-chip-red: #d9534f;
+  --tell-chip-blue: #4a7bd0;
+  --tell-chip-black: #1b1f1d;
+  --tell-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Motion is decoration only, so honour the system setting everywhere. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

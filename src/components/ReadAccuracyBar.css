@@ -1,0 +1,39 @@
+.accuracybar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.accuracybar-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--tell-muted);
+}
+
+.accuracybar-top strong {
+  color: var(--tell-text);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+}
+
+.accuracybar-track {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--tell-line);
+}
+
+.accuracybar-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--tell-gold), var(--tell-green));
+  transform-origin: left;
+  animation: accuracybar-grow 0.9s var(--tell-ease) both;
+}
+
+@keyframes accuracybar-grow {
+  from {
+    transform: scaleX(0);
+  }
+}

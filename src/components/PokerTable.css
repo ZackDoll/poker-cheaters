@@ -1,0 +1,121 @@
+.pokertable {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  min-width: 640px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  max-height: calc(100vh - 290px);
+  min-height: 420px;
+}
+
+.pokertable-rim {
+  position: absolute;
+  inset: 7% 5%;
+  padding: 14px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, var(--tell-rim-light), var(--tell-rim));
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55), inset 0 2px 4px rgba(255, 255, 255, 0.12);
+  animation: pokertable-in 0.7s var(--tell-ease) both;
+}
+
+.pokertable-felt {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 50% 40%, var(--tell-felt) 0%, var(--tell-felt-deep) 100%);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.55), inset 0 0 0 2px rgba(244, 201, 93, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pokertable-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.pokertable-street {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(237, 234, 224, 0.55);
+}
+
+.pokertable-board {
+  display: flex;
+  gap: 8px;
+  min-height: 78px;
+}
+
+.pokertable-slot {
+  width: 56px;
+  height: 78px;
+  border: 1px dashed rgba(237, 234, 224, 0.2);
+  border-radius: 8px;
+}
+
+.pokertable-pot {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 5px 16px;
+  border-radius: 999px;
+  background: rgba(11, 20, 17, 0.55);
+}
+
+.pokertable-pot-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--tell-dim);
+}
+
+.pokertable-pot-value {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 22px;
+  color: var(--tell-gold);
+}
+
+.pokertable-seat,
+.pokertable-empty {
+  position: absolute;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+}
+
+.pokertable-empty {
+  padding: 8px 18px;
+  border: 1px dashed rgba(237, 234, 224, 0.22);
+  border-radius: 999px;
+  color: rgba(237, 234, 224, 0.4);
+  font-size: 13px;
+}
+
+.pokertable-overlay {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  top: 44%;
+  transform: translate(-50%, -50%);
+  max-width: 92%;
+  animation: pokertable-overlay-in 0.45s var(--tell-ease) both;
+}
+
+@keyframes pokertable-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+@keyframes pokertable-overlay-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -46%);
+  }
+}

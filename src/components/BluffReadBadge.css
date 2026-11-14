@@ -1,0 +1,137 @@
+.bluffread {
+  position: relative;
+  min-width: 96px;
+  padding: 6px 10px 8px;
+  border: 1px solid var(--tell-border);
+  border-radius: 12px;
+  background: rgba(11, 20, 17, 0.92);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--tell-muted);
+  animation: bluffread-pop 0.4s var(--tell-ease) both;
+}
+
+.bluffread-sealed {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-style: dashed;
+}
+
+.bluffread-button {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.bluffread-label {
+  letter-spacing: 0.08em;
+  color: var(--tell-dim);
+}
+
+.bluffread-value {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.bluffread-track {
+  height: 4px;
+  margin-top: 6px;
+  border-radius: 2px;
+  background: var(--tell-line);
+}
+
+.bluffread-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.8s var(--tell-ease);
+}
+
+.bluffread-low {
+  border-color: rgba(111, 211, 165, 0.5);
+}
+
+.bluffread-low .bluffread-value,
+.bluffread-low .bluffread-fill {
+  color: var(--tell-green);
+  background: var(--tell-green);
+}
+
+.bluffread-mid {
+  border-color: rgba(244, 201, 93, 0.5);
+}
+
+.bluffread-mid .bluffread-value,
+.bluffread-mid .bluffread-fill {
+  color: var(--tell-gold);
+  background: var(--tell-gold);
+}
+
+.bluffread-high {
+  border-color: rgba(255, 122, 89, 0.6);
+}
+
+.bluffread-high .bluffread-value,
+.bluffread-high .bluffread-fill {
+  color: var(--tell-coral);
+  background: var(--tell-coral);
+}
+
+.bluffread .bluffread-value {
+  background: none;
+}
+
+.bluffread-reasons {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 6px);
+  left: 50%;
+  width: 220px;
+  margin: 0;
+  padding: 10px 12px 10px 26px;
+  transform: translateX(-50%);
+  border: 1px solid var(--tell-outline);
+  border-radius: 12px;
+  background: var(--tell-surface);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--tell-text);
+  animation: bluffread-pop 0.2s var(--tell-ease) both;
+}
+
+.bluffread-reasons li + li {
+  margin-top: 6px;
+}
+
+.bluffread-note {
+  color: var(--tell-dim);
+  font-size: 12px;
+}
+
+@keyframes bluffread-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.92);
+  }
+}
+
+.bluffread-reasons {
+  animation-name: bluffread-pop-center;
+}
+
+@keyframes bluffread-pop-center {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+}
