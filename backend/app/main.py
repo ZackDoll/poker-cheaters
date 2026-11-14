@@ -2,14 +2,11 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api.routes import health, players, predictions, rooms, sessions
+from app.api.routes import health, predictions, sessions
 from app.config import get_settings
 from app.ml.registry import build_registry
-from app.services.rooms.manager import RoomManager
-from app.services.rooms.persistence import DatabasePersistence
 
 API_PREFIX = "/api"
 # Room for the non-file form fields, on top of two clips at the size limit.
@@ -21,21 +18,11 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     registry = build_registry(get_settings())
     registry.load_all()
     app.state.registry = registry
-    app.state.rooms = RoomManager(DatabasePersistence(registry))
-    app.state.rooms.start()
     yield
-    await app.state.rooms.stop()
 
 
 def create_app() -> FastAPI:
     app = FastAPI(title="Poker Bluff Detector API", lifespan=lifespan)
-
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=get_settings().cors_origins,
-        allow_methods=["GET", "POST"],
-        allow_headers=["Authorization", "Content-Type"],
-    )
 
     @app.middleware("http")
     async def reject_oversized_uploads(request: Request, call_next):
@@ -48,7 +35,7 @@ def create_app() -> FastAPI:
                 return JSONResponse(status_code=413, content={"detail": "Upload is too large"})
         return await call_next(request)
 
-    for module in (health, sessions, predictions, rooms, players):
+    for module in (health, sessions, predictions):
         app.include_router(module.router, prefix=API_PREFIX)
     return app
 

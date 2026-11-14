@@ -5,7 +5,6 @@ TEST_DATABASE_URL = os.environ.get(
     "TEST_DATABASE_URL", "postgresql+psycopg://poker:poker@localhost:5432/poker_test"
 )
 os.environ["DATABASE_URL"] = TEST_DATABASE_URL
-os.environ["ROOM_TOKEN_SECRET"] = "test-room-secret"
 
 import pytest  # noqa: E402
 from alembic.config import Config  # noqa: E402
