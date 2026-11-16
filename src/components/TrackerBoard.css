@@ -1,0 +1,90 @@
+.trackerboard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--tell-border);
+  border-radius: 20px;
+  background: var(--tell-felt-deep);
+}
+
+.trackerboard-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.trackerboard-title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 18px;
+}
+
+.trackerboard-street {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tell-gold);
+}
+
+.trackerboard-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.trackerboard-empty {
+  width: 56px;
+  height: 78px;
+  border: 1px dashed var(--tell-outline);
+  border-radius: 8px;
+}
+
+.trackerboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.trackerboard-mine {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--tell-border);
+}
+
+.trackerboard-label {
+  font-size: 13px;
+  color: var(--tell-muted);
+}
+
+.trackerboard-button {
+  padding: 8px 14px;
+  border: 1px solid var(--tell-outline);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tell-text);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.trackerboard-button:hover:not(:disabled) {
+  border-color: var(--tell-gold);
+}
+
+.trackerboard-primary {
+  border-color: var(--tell-gold);
+  background: var(--tell-gold);
+  color: #0b1411;
+}
+
+.trackerboard-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

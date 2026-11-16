@@ -83,3 +83,32 @@
     transform: translateY(10px);
   }
 }
+
+.player-profile-danger {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.player-profile-delete {
+  padding: 8px 16px;
+  border: 1px solid var(--tell-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tell-muted);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.player-profile-delete:hover {
+  border-color: var(--tell-coral);
+  color: var(--tell-coral);
+}
+
+.player-profile-delete-error {
+  margin: 0;
+  color: var(--tell-coral);
+}

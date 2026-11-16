@@ -1,25 +1,26 @@
 import { Link } from 'react-router'
-import Avatar from './Avatar.jsx'
 import ReadAccuracyBar from './ReadAccuracyBar.jsx'
-import { formatDateTime, formatNet, netTone } from '../helpers/format.js'
+import { formatDateTime } from '../helpers/format.js'
 import './SessionCard.css'
 
-// One past game: when, who played, how many bets were read and how well, and your result.
+// One tracked session: when, who was logged, how many bets were read, and how well.
+// Open sessions go back to the tracker; ended ones open the review.
 function SessionCard({ session, index = 0 }) {
+  const target = session.ended_at ? `/sessions/${session.id}` : `/track/${session.id}`
   return (
-    <Link className="sessioncard" to={`/sessions/${session.id}`} style={{ animationDelay: `${index * 60}ms` }}>
+    <Link className="sessioncard" to={target} style={{ animationDelay: `${index * 60}ms` }}>
       <div className="sessioncard-top">
         <span className="sessioncard-date">{formatDateTime(session.created_at)}</span>
-        <span className="sessioncard-code">{session.room_code}</span>
+        <span className={`sessioncard-status ${session.ended_at ? '' : 'sessioncard-open'}`}>
+          {session.ended_at ? 'Ended' : 'In progress'}
+        </span>
       </div>
 
-      <div className="sessioncard-players">
-        {session.players.map((player) => (
-          <span key={player.id} title={player.name} className="sessioncard-player">
-            <Avatar name={player.name} url={player.avatar_url} size={32} />
-          </span>
-        ))}
-      </div>
+      <div className="sessioncard-name">{session.label || 'Untitled session'}</div>
+
+      {session.opponents.length > 0 && (
+        <div className="sessioncard-players">{session.opponents.map((opponent) => opponent.name).join(' · ')}</div>
+      )}
 
       <div className="sessioncard-stats">
         <span>
@@ -28,11 +29,6 @@ function SessionCard({ session, index = 0 }) {
         <span>
           <strong>{session.judged_bets}</strong> bets read
         </span>
-        {session.my_net_chips !== null && (
-          <span className={`sessioncard-net sessioncard-net-${netTone(session.my_net_chips)}`}>
-            {formatNet(session.my_net_chips)} chips
-          </span>
-        )}
       </div>
 
       <ReadAccuracyBar value={session.read_accuracy} />

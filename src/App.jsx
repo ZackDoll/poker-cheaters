@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router'
 import Sidebar from './components/Sidebar.jsx'
-import TopBar from './components/TopBar.jsx'
 import AuthGate from './components/AuthGate.jsx'
 import LandingPage from './pages/LandingPage.jsx'
 import HomePage from './pages/HomePage.jsx'
-import LivePage from './pages/LivePage.jsx'
 import SessionsPage from './pages/SessionsPage.jsx'
 import SessionDetailPage from './pages/SessionDetailPage.jsx'
 import OpponentsPage from './pages/OpponentsPage.jsx'
 import InsightsPage from './pages/InsightsPage.jsx'
 import SettingsPage from './pages/SettingsPage.jsx'
-import PlayLobbyPage from './pages/PlayLobbyPage.jsx'
-import PlayRoomPage from './pages/PlayRoomPage.jsx'
+import TrackerPage from './pages/TrackerPage.jsx'
 import PlayerProfilePage from './pages/PlayerProfilePage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import { getCurrentUser, logout } from './helpers/auth.js'
@@ -51,9 +48,7 @@ function App() {
   }
 
   const signedInPage = Boolean(user) && !STANDALONE_PATHS.includes(pathname)
-  // The table takes the whole window: no sidebar, and a slimmer header.
-  const immersive = pathname.startsWith('/play/')
-  const showSidebar = signedInPage && !immersive
+  const showSidebar = signedInPage
 
   function priv(element) {
     return (
@@ -75,17 +70,14 @@ function App() {
     <div className="app">
       {showSidebar && <Sidebar user={user} onLogout={handleLogout} />}
       <div className="app-column">
-        {signedInPage && <TopBar compact={immersive} />}
         <main className={showSidebar ? 'app-content' : 'app-content-full'}>
         <Routes>
           <Route path="/" element={guest(<LandingPage />)} />
           <Route path="/login" element={guest(<LoginPage />)} />
           <Route path="/home" element={priv(<HomePage user={user} />)} />
-          <Route path="/live" element={priv(<LivePage />)} />
           <Route path="/sessions" element={priv(<SessionsPage />)} />
           <Route path="/sessions/:sessionId" element={priv(<SessionDetailPage />)} />
-          <Route path="/play" element={priv(<PlayLobbyPage />)} />
-          <Route path="/play/:code" element={priv(<PlayRoomPage />)} />
+          <Route path="/track/:sessionId" element={priv(<TrackerPage />)} />
           <Route path="/opponents" element={priv(<OpponentsPage />)} />
           <Route path="/opponents/:playerId" element={priv(<PlayerProfilePage />)} />
           <Route path="/insights" element={priv(<InsightsPage />)} />

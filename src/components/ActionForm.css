@@ -1,0 +1,132 @@
+.actionform {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--tell-border);
+  border-radius: 20px;
+  background: var(--tell-surface);
+}
+
+.actionform-title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 20px;
+}
+
+.actionform-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.actionform-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.actionform-label {
+  font-size: 13px;
+  color: var(--tell-muted);
+}
+
+.actionform-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.actionform-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.actionform-chip {
+  padding: 8px 14px;
+  border: 1px solid var(--tell-outline);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tell-text);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+
+.actionform-chip:hover {
+  border-color: var(--tell-gold);
+}
+
+.actionform-chip-on {
+  border-color: var(--tell-gold);
+  background: rgba(244, 201, 93, 0.14);
+  color: var(--tell-gold);
+}
+
+.actionform-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--tell-border);
+  border-radius: 10px;
+  background: var(--tell-bg);
+  color: var(--tell-text);
+  font: inherit;
+}
+
+.actionform-input:focus-visible,
+.actionform-chip:focus-visible {
+  outline: 2px solid var(--tell-gold);
+  outline-offset: 2px;
+}
+
+.actionform-add {
+  display: flex;
+  gap: 8px;
+}
+
+.actionform-add-button {
+  padding: 0 16px;
+  border: 1px solid var(--tell-outline);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--tell-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.actionform-add-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.actionform-error {
+  margin: 0;
+  font-size: 14px;
+  color: var(--tell-coral);
+}
+
+.actionform-submit {
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--tell-gold);
+  color: #0b1411;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.actionform-submit:hover:not(:disabled) {
+  background: var(--tell-gold-hover);
+}
+
+.actionform-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,146 @@
+.trackerpage {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.trackerpage-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.trackerpage-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--tell-gold);
+}
+
+.trackerpage-title {
+  margin: 4px 0 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.trackerpage-header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.trackerpage-button {
+  padding: 10px 18px;
+  border: 1px solid var(--tell-outline);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tell-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.trackerpage-button:hover:not(:disabled) {
+  border-color: var(--tell-gold);
+}
+
+.trackerpage-danger:hover:not(:disabled) {
+  border-color: var(--tell-coral);
+}
+
+.trackerpage-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.trackerpage-error {
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid var(--tell-coral);
+  border-radius: 12px;
+  color: var(--tell-coral);
+}
+
+.trackerpage-start {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 32px;
+  border: 1px solid var(--tell-border);
+  border-radius: 20px;
+  background: var(--tell-surface);
+}
+
+.trackerpage-start-text {
+  margin: 0;
+  max-width: 520px;
+  font-size: 18px;
+  color: var(--tell-muted);
+}
+
+.trackerpage-start-button {
+  padding: 14px 28px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--tell-gold);
+  color: #0b1411;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.trackerpage-start-button:hover:not(:disabled) {
+  background: var(--tell-gold-hover);
+}
+
+.trackerpage-start-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.trackerpage-link {
+  color: var(--tell-muted);
+  font-size: 14px;
+}
+
+.trackerpage-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.trackerpage-side,
+.trackerpage-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.trackerpage-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trackerpage-subtitle {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 18px;
+}
+
+@media (max-width: 860px) {
+  .trackerpage-layout {
+    grid-template-columns: 1fr;
+  }
+}

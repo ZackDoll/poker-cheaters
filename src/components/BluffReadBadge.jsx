@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import AnimatedNumber from './AnimatedNumber.jsx'
-import { getLikelihoodTone } from '../helpers/liveSampleData.js'
+import { getLikelihoodTone } from '../helpers/format.js'
 import './BluffReadBadge.css'
 
 // The live bluff read on a bettor. Click it to see why.

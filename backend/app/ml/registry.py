@@ -6,7 +6,6 @@ from app.config import Settings
 from app.ml.base import DecisionModel, SignalModel
 from app.ml.decision.baseline import BaselineDecisionModel
 from app.ml.facial.model import FacialModel
-from app.ml.live_facial.model import LiveFacialModel
 from app.ml.speech.model import SpeechModel
 from app.ml.statistics.model import StatisticsModel
 
@@ -33,12 +32,7 @@ class ModelRegistry:
 
 
 def build_registry(settings: Settings) -> ModelRegistry:
-    signal_models: list[SignalModel] = [
-        FacialModel(),
-        LiveFacialModel(),
-        SpeechModel(),
-        StatisticsModel(),
-    ]
+    signal_models: list[SignalModel] = [FacialModel(), SpeechModel(), StatisticsModel()]
 
     missing = {m.name for m in signal_models} - settings.fusion_weights.keys()
     if missing:

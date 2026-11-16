@@ -25,23 +25,6 @@ class Evidence(BaseModel):
     log_odds: float = Field(allow_inf_nan=False)
 
 
-class FaceDeviation(BaseModel):
-    """How far one facial movement is from the player's own resting baseline."""
-
-    name: str = Field(max_length=40)
-    z: float = Field(ge=-20, le=20, allow_inf_nan=False)
-
-
-class LiveFaceFeatures(BaseModel):
-    """Derived face measurements sent by a player's browser. Never video or landmarks."""
-
-    mean_score: float = Field(ge=0, le=10, allow_inf_nan=False)
-    peak_score: float = Field(ge=0, le=10, allow_inf_nan=False)
-    deviations: list[FaceDeviation] = Field(default=[], max_length=8)
-    tracked_ratio: float = Field(ge=0, le=1, allow_inf_nan=False)
-    samples: int = Field(ge=0, le=1000)
-
-
 class SignalOutput(BaseModel):
     """The result every signal model returns."""
 

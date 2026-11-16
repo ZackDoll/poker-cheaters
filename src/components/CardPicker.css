@@ -1,0 +1,160 @@
+.cardpicker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(5, 10, 8, 0.78);
+  animation: cardpicker-fade 0.2s ease both;
+}
+
+.cardpicker {
+  width: min(760px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--tell-border);
+  border-radius: 20px;
+  background: var(--tell-surface);
+  outline: none;
+  animation: cardpicker-rise 0.3s var(--tell-ease) both;
+}
+
+.cardpicker-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardpicker-title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 22px;
+}
+
+.cardpicker-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--tell-gold);
+}
+
+.cardpicker-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cardpicker-row {
+  display: grid;
+  grid-template-columns: repeat(13, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.cardpicker-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 2px 0;
+  border: 1px solid var(--tell-border);
+  border-radius: 8px;
+  background: #f4efe2;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.1;
+  cursor: pointer;
+  transition:
+    transform 0.15s var(--tell-ease),
+    box-shadow 0.15s;
+}
+
+.cardpicker-black {
+  color: #15201b;
+}
+
+.cardpicker-red {
+  color: #c4372f;
+}
+
+.cardpicker-card:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.cardpicker-card:focus-visible {
+  outline: 2px solid var(--tell-gold);
+  outline-offset: 2px;
+}
+
+.cardpicker-selected {
+  box-shadow: 0 0 0 3px var(--tell-gold);
+  transform: translateY(-3px);
+}
+
+.cardpicker-card:disabled {
+  opacity: 0.18;
+  cursor: not-allowed;
+}
+
+.cardpicker-chosen {
+  min-height: 24px;
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 16px;
+  color: var(--tell-muted);
+}
+
+.cardpicker-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cardpicker-button {
+  padding: 10px 18px;
+  border: 1px solid var(--tell-outline);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tell-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cardpicker-primary {
+  border-color: var(--tell-gold);
+  background: var(--tell-gold);
+  color: #0b1411;
+}
+
+.cardpicker-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@keyframes cardpicker-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes cardpicker-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@media (max-width: 560px) {
+  .cardpicker-card {
+    min-height: 42px;
+    font-size: 12px;
+  }
+}

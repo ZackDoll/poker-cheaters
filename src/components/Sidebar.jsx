@@ -19,8 +19,7 @@ function Sidebar({ user, onLogout }) {
       </NavLink>
 
       <nav className="sidebar-links">
-        <NavLink to="/live">Live</NavLink>
-        <NavLink to="/sessions">Sessions</NavLink>
+        <NavLink to="/sessions">Track</NavLink>
         <NavLink to="/opponents">Opponents</NavLink>
         <NavLink to="/insights">Insights</NavLink>
         <NavLink to="/settings">Settings</NavLink>

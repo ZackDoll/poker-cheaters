@@ -1,0 +1,72 @@
+.showdown {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--tell-border);
+  border-radius: 20px;
+  background: var(--tell-surface);
+}
+
+.showdown-title {
+  margin: 0;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 18px;
+}
+
+.showdown-text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--tell-muted);
+}
+
+.showdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.showdown-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.showdown-name {
+  min-width: 90px;
+  font-weight: 600;
+}
+
+.showdown-cards {
+  display: flex;
+  gap: 4px;
+}
+
+.showdown-none {
+  font-size: 14px;
+  color: var(--tell-dim);
+}
+
+.showdown-button {
+  padding: 6px 12px;
+  border: 1px solid var(--tell-outline);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--tell-text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.showdown-button:hover:not(:disabled) {
+  border-color: var(--tell-gold);
+}
+
+.showdown-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
